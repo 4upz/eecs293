@@ -2,7 +2,7 @@
 Software Craftsmanship Fun With Kyle and Arik
 
 ## Authors
-* **Arik Stewart** - **Kyle Pham**
+* **Arik Stewart** || **Kyle Pham**
 
 ## Prerequisites (Software Needed)
 * Eclipse Java, 2018
@@ -61,7 +61,7 @@ Public interface representation of a node within the tree.
 * **toString** - Override method that returns its `Token` to string representation
 * **toList** - `public final` returns a list containing as a single element its `Token` 
 
-##InternalNode
+## InternalNode
 `public final class` that implements `Node` 
 * **children** - `private final List<Node>` that represents node children, also contains a getter that returns a copy of the private children
 * **constructor** - private, sets the children to an unmodifiable copy of its own argument
