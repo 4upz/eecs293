@@ -1,17 +1,25 @@
+/**
+ * Contained in package for EECS 293 project
+ */
 package edu.cwru.ams382cpp31.parser;
 
 import java.util.Objects;
 
+/**
+ * A class used to represent connectors in a mathematical expression
+ * @author Kyle Pham
+ *
+ */
 public final class Connector extends AbstractToken {
 
 	/**
-	 * 
+	 * The type of the connector or terminal symbol
 	 */
 	private TerminalSymbol type;
 	
 	/**
-	 * 
-	 * @param type
+	 * Constructs a connector, given the type of the terminal symbol
+	 * @param type	the type of the terminal symbol to be represented by the connector
 	 */
 	private Connector(TerminalSymbol type) {
 		this.type = type;
@@ -23,9 +31,9 @@ public final class Connector extends AbstractToken {
 	}
 	
 	/**
-	 * 
-	 * @param type
-	 * @return
+	 * Builds a connector, given the type of the terminal symbol, avoiding duplicates
+	 * @param type	the type of the terminal symbol to be represented by the connector
+	 * @return	a connector with the given type of terminal symbol
 	 */
 	public static final Connector build(TerminalSymbol type) {
 		Objects.requireNonNull(type, "The terminal symbol should not be null!");
@@ -39,8 +47,9 @@ public final class Connector extends AbstractToken {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Checks whether the given input is a connector terminal symbol 
+	 * @return	true if the input is a connector terminal symbol ('+', '-', '*', '/', '(', ')')
+	 * 			false otherwise
 	 */
 	private static boolean isValidType(TerminalSymbol type) {
 		switch ( type ) {
@@ -57,7 +66,8 @@ public final class Connector extends AbstractToken {
 	}
 	
 	/**
-	 * 
+	 * Returns the string representation of the connector
+	 * @return	the string representation of the connector
 	 */
 	public String toString() {
 		switch ( this.getType() ) {
