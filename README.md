@@ -11,7 +11,7 @@ Software Craftsmanship Fun With Kyle and Arik
 The project in this package will be used to translate a sequence representation of a numerical expression into a compact tree representation
 
 ## Cache
-Used for constuctors to avoid creating multiple immutable objects with the same non-null parameter
+Used for constructors to avoid creating multiple immutable objects with the same non-null parameter
 package-private `final class Cache<T,V>`
 * **cache** - `private Map<T, V> cache` that is initially empty and holds a mapped cache value
 * **get()** - `V get(T key, Function<? super T, ? extends V> constructor>` that returns the cached object corresponding to `t` if present in the cache,

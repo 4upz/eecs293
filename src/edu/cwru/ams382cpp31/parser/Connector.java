@@ -29,8 +29,8 @@ public final class Connector extends AbstractToken {
 		if (type != null && isValidType(type)) {
 			return new Connector(type);
 		}
-		else if (!isValidType(type){
-			throw new IllegalArgumentException()
+		else if (!isValidType(type)){
+			throw new IllegalArgumentException();
 		}
 		else {
 			throw new NullPointerException();
@@ -43,7 +43,7 @@ public final class Connector extends AbstractToken {
 	 */
 	private static boolean isValidType(TerminalSymbol type) {
 		// TODO: Check enum type
-		return false
+		return false;
 	}
 	
 	/**
@@ -51,6 +51,7 @@ public final class Connector extends AbstractToken {
 	 */
 	public String toString() {
 		// TODO: Override based on the type of Connector
+		return null;
 	}
 
 }
