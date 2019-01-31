@@ -1,5 +1,7 @@
 package edu.cwru.ams382cpp31.parser;
 
+import java.util.Objects;
+
 public final class Connector extends AbstractToken {
 
 	/**
@@ -26,14 +28,13 @@ public final class Connector extends AbstractToken {
 	 * @return
 	 */
 	public static final Connector build(TerminalSymbol type) {
-		if (type != null && isValidType(type)) {
+		Objects.requireNonNull(type, "The terminal symbol should not be null!");
+		
+		if (isValidType(type)) {
 			return new Connector(type);
 		}
-		else if (!isValidType(type)){
-			throw new IllegalArgumentException();
-		}
 		else {
-			throw new NullPointerException();
+			throw new IllegalArgumentException("The input terminal symbol type is invalid!");
 		}
 	}
 	
@@ -42,16 +43,39 @@ public final class Connector extends AbstractToken {
 	 * @return
 	 */
 	private static boolean isValidType(TerminalSymbol type) {
-		// TODO: Check enum type
-		return false;
+		switch ( type ) {
+		case CLOSE:
+		case DIVIDE:
+		case MINUS:
+		case OPEN:
+		case PLUS:
+		case TIMES:
+			return true;
+		default:
+			return false;
+		}
 	}
 	
 	/**
 	 * 
 	 */
 	public String toString() {
-		// TODO: Override based on the type of Connector
-		return null;
+		switch ( this.getType() ) {
+		case CLOSE:
+			return ")";
+		case DIVIDE:
+			return "/";
+		case MINUS:
+			return "-";
+		case OPEN:
+			return "(";
+		case PLUS:
+			return "+";
+		case TIMES:
+			return "*";
+		default:
+			throw new IllegalArgumentException("Invalid type of the connector!");
+		}
 	}
 
 }

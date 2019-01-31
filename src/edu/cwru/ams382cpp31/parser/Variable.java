@@ -1,5 +1,7 @@
 package edu.cwru.ams382cpp31.parser;
 
+import java.util.Objects;
+
 /**
  * 
  * @author Kyle Pham
@@ -11,6 +13,11 @@ public final class Variable extends AbstractToken {
 	 * 
 	 */
 	private final String representation;
+	
+	/**
+	 * 
+	 */
+	private static Cache<String, Variable> cache = new Cache<String, Variable>();
 	
 	/**
 	 * 
@@ -39,12 +46,9 @@ public final class Variable extends AbstractToken {
 	 * @return
 	 */
 	public static final Variable build(String representation) {
-		if (representation != null) {
-			return new Variable(representation);
-		}
-		else {
-			throw new NullPointerException();
-		}
+		Objects.requireNonNull(representation, "The string representation should not be null!");
+		
+		return cache.get(representation, Variable::new);
 	}
 	
 	@Override
