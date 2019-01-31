@@ -20,7 +20,7 @@ public final class LeafNode implements Node {
 	 */
 	private LeafNode(Token token) {
 		//Set the given value to the value stored in token
-		token = this.token;
+		this.token = token;
 	}
 	
 	/**
@@ -48,6 +48,7 @@ public final class LeafNode implements Node {
 	 * Overrides toString method and returns the Token stored in the LeafNode instance to a string representation
 	 * @return returns a string representation of the token value
 	 */
+	@Override
 	public final String toString() {
 		return this.getToken().toString();
 	}
@@ -57,7 +58,7 @@ public final class LeafNode implements Node {
 	 * @return a new list containing the single value stored in token
 	 */
 	public final List<Token> toList(){
-		List<Token> list = new List();
+		List<Token> list = new ArrayList<Token>();
 		list.add(this.getToken());
 		return list;
 	}
