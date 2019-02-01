@@ -8,6 +8,7 @@ import java.util.Objects;
 /**
  * A class used to represent connectors in a mathematical expression
  * @author Kyle Pham
+ * @author Arik Stewart
  *
  */
 public final class Connector extends AbstractToken {

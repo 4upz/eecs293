@@ -6,21 +6,20 @@ package edu.cwru.ams382cpp31.parser;
 /**
  * An abstract class used to represent tokens of different types in a mathematical expression
  * @author Kyle Pham
- *
+ * @author Arik Stewart
  */
 public abstract class AbstractToken implements Token {
 
 	@Override
 	public abstract TerminalSymbol getType(); 
 	
+	/**
+//	 * Inherited method that determines if the current Token type matches a given type
+//	 * @return a boolean value based on match result
+//	 */
 	@Override
 	public boolean matches(TerminalSymbol type) {
-		if (getType() == type) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return this.getType() == type;
 	}
 
 }

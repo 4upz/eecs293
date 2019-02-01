@@ -10,6 +10,7 @@ import java.util.function.Function;
 
 /**
  * @author Kyle Pham
+ * @author Arik Stewart
  * A final package-private class used to represent cache, which stores previous data objects' properties
  */
 final class Cache<T, V> {
@@ -37,12 +38,8 @@ final class Cache<T, V> {
 		Objects.requireNonNull(key, "The key should not be null!");
 		Objects.requireNonNull(constructor, "The constructor function should not be null!");
 		
-		if (cache.containsKey(key)) {
-			return cache.get(key);
-		}
-		else {
-			return cache.put(key, constructor.apply(key));
-		}
+		// Retrieves the key if one exists and applies it if it doesn't
+		return cache.containsKey(key) ? cache.get(key) : cache.put(key,  constructor.apply(key));
 		
 	}
 	

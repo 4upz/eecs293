@@ -37,9 +37,7 @@ public final class LeafNode implements Node {
 	 * @return the newly constructed LeafNode that contains the given Token value
 	 */
 	public static final LeafNode build(Token token) {
-		if(token == null) {
-			throw new NullPointerException("Token type cannot be null");
-		}
+		Objects.requireNonNull(token, "Token type cannot be null");
 		LeafNode newLeaf = new LeafNode(token);
 		return newLeaf;
 	}
@@ -58,9 +56,9 @@ public final class LeafNode implements Node {
 	 * @return a new list containing the single value stored in token
 	 */
 	public final List<Token> toList(){
-		List<Token> list = new ArrayList<Token>();
-		list.add(this.getToken());
-		return list;
+		List<Token> newList = new ArrayList<Token>();
+		newList.add(this.getToken());
+		return newList;
 	}
 	
 	

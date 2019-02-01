@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * A class to represent variables in a mathematical expression
  * @author Kyle Pham
- *
+ * @author Arik Stewart
  */
 public final class Variable extends AbstractToken {
 

@@ -3,7 +3,8 @@
  */
 package edu.cwru.ams382cpp31.parser;
 
-import java.util.List;
+import java.util.*;
+import java.util.Objects;
 
 /**
  * @author Arik Stewart
@@ -18,19 +19,65 @@ public class InternalNode implements Node {
 	private final List<Node> children;
 	
 	/**
+	 * A stored list from the concatenation of all of the InternalNodes's children
+	 * Only instantiated if toList() has been called before
+	 */
+	protected List<Token> listConcat;
+	
+	/**
+	 * A stored string from the tokens in the node children
+	 * Only instantiated if toString() has been called before
+	 */
+	protected String childrenString;
+	
+	/**
 	 * Constructor for the class that initializes children
 	 * @param children a given list of Nodes to be set as an InternalNode
 	 */
 	private InternalNode(List<Node> children) {
 		this.children = children;
+		this.listConcat = null;
+		this.childrenString = null;
 	}
 	
 	/**
 	 * Retrieves the list of node children
 	 * @return the value stored in children
 	 */
-	public List<Node> getChildren(){
+	public List<Node> getChildren() {
 		return this.children;
+	}
+	
+	/**
+	 * Retrieves the stored concatenation of the node children
+	 * @return a list of Tokens from the node children stored in this InternalNode
+	 */
+	public List<Token> getListConcat() {
+		return this.listConcat;
+	}
+	
+	/**
+	 * Retrieves the stored String of the Token values stored in the node children
+	 * @return
+	 */
+	public String getChildrenString() {
+		return this.getChildrenString();
+	}
+	
+	/**
+	 * Sets the value of childrenString to a new String value
+	 * @param newString new String to be stored
+	 */
+	private void setChildrenString(String newString) {
+		this.childrenString = newString;
+	}
+	
+	/**
+	 * Sets the value of listConcat once a concatenation has been created in toList()
+	 * @param newConcat the new Token List that is to be stored
+	 */
+	private void setListConcat(List<Token> newConcat) {
+		this.listConcat = newConcat;
 	}
 	
 	/**
@@ -39,29 +86,47 @@ public class InternalNode implements Node {
 	 * @return the newly instantiated internalNode made from the given list
 	 */
 	public static InternalNode build(List<Node> children) {
-		if(children == null) {
-			throw new NullPointerException("Children list cannot be null");
-		}
+		Objects.requireNonNull(children, "Children list cannot be null");
 		InternalNode newNode = new InternalNode(children);
 		return newNode;
 	}
 	
 	/**
 	 * Returns the concatenation of the children's lists or a pre-computed copy if one was already made
+	 * @return new List<Token> containing all of the tokens in the internal node's children
 	 */
 	@Override
-	public List<Token> toList() {
-		// TODO Create concatenation algorithm along with new variable to store the concatenation
-		return null;
+	public final List<Token> toList() {
+		//If a concatenation hasn't already been made...
+		if (this.getListConcat() == null) {	
+			List<Token> newList = new ArrayList<Token>();
+			//Add every token in each Node children to the new list
+			for (Node node : this.getChildren()) {
+				for(Token token : node.toList()) {
+					newList.add(token);
+				}
+			}
+			this.setListConcat(newList);
+		}
+		return this.getListConcat();
 	}
 	
 	/**
 	 * Returns a formatted String result of the stored children
 	 * @return String containing squared parentheses from children nodes
 	 */
-	public String toString() {
-		// TODO Create String formatting algorithm along with a new variable to store the result once built
-		return null;
+	@Override
+	public final String toString() {
+		//If a String output hasn't already been made...
+		if (this.getChildrenString() == null) {	
+			String result = "";
+			//Add the string output of each token to the new resulting string with brackets between each node
+			for (Node node : this.getChildren()) {
+				result += "[" + node.toString() + "]";
+			}
+			this.setChildrenString(result);
+		}
+		return this.getChildrenString(); 
 	}
 
 }
