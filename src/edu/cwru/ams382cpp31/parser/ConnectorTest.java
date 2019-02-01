@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
  * @author Arik Stewart
  * A class using JUnit5 to test the methods in the class Connector
  */
-class TestConnector {
+class ConnectorTest {
 
 	/**
 	 * Tests the methods in the class Variable
