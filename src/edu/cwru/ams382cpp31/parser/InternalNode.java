@@ -122,7 +122,11 @@ public class InternalNode implements Node {
 			String result = "";
 			//Add the string output of each token to the new resulting string with brackets between each node
 			for (Node node : this.getChildren()) {
-				result += "[" + node.toString() + "]";
+				result += "[" + node.toString();
+			}
+			//Add a closing bracket for every group of opening brackets
+			for (int i = 0; i < this.getChildren().size(); i++) {
+				result += "]";
 			}
 			this.setChildrenString(result);
 		}
