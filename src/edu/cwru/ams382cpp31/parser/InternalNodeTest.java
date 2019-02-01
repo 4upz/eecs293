@@ -86,21 +86,21 @@ class InternalNodeTest {
 		//Test with one single-node child
 		leafNode = LeafNode.build(add);
 		internalNodeOne = InternalNode.build(Arrays.asList(leafNode));
-		assertEquals("Test with only one Node Children", "+", internalNodeOne.toString());
+		assertEquals("Test with only one Node Children", "[+]", internalNodeOne.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("One-Node Test of String copy", "+", internalNodeOne.toString());
+		assertEquals("One-Node Test of String copy", "[+]", internalNodeOne.toString());
 
 		internalNodeOne = InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(minus), LeafNode.build(b)));
-		assertEquals("Test with more than one Node Children", "a-b", internalNodeOne.toString());
+		assertEquals("Test with more than one Node Children", "[a,[-,[b]]]", internalNodeOne.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("More than one One-Node Test of String copy", "a-b", internalNodeOne.toString());
+		assertEquals("More than one One-Node Test of String copy", "[a,[-,[b]]]", internalNodeOne.toString());
 				
 		//Test with one single-node child and one InternalNode child
 		leafNode = LeafNode.build(add);
 		internalNodeTwo = InternalNode.build(Arrays.asList(internalNodeOne, leafNode));
-		assertEquals("Test with one node and InternalNode as children", "a-b+", internalNodeTwo.toString());
+		assertEquals("Test with one node and InternalNode as children", "[[a,[-,[b,[+]]]]]", internalNodeTwo.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("One-Node and InternalNode Test of String copy", "a-b+", internalNodeTwo.toString());
+		assertEquals("One-Node and InternalNode Test of String copy", "[[a,[-,[b,[+]]]]]", internalNodeTwo.toString());
 				
 		//Test with more than one InternalNode children
 		internalNodeTwo = InternalNode.build(Arrays.asList(leafNode, LeafNode.build(c)));

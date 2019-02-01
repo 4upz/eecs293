@@ -121,16 +121,23 @@ public class InternalNode implements Node {
 		if (this.getChildrenString() == null) {	
 			StringBuilder sb = new StringBuilder();
 			//Add the string output of each token to the new resulting string with brackets between each node
-			for (Node node : this.getChildren()) {
-//				result += "[";
-				sb.append(node.toList().toString().replace("]", "").replace("[", ""));
+			List<Node> children = this.getChildren();
+			for (Node node : children) {
+				sb.append("[");
+				sb.append(node.toString());
+				if(!(node instanceof LeafNode)) {
+					if(!((LeafNode)children.get(children.size() - 1)).getToken().matches(((LeafNode)node).getToken().getType())) {
+						sb.append(",");
+					}
+				}
 			}
-//			//Add a closing bracket for every group of opening brackets
-//			for (int i = 0; i < this.getChildren().size(); i++) {
-//				sb.append("]");
-//			}
+			//Add a closing bracket for every group of opening brackets
+			for (int i = 0; i < this.getChildren().size(); i++) {
+				sb.append("]");
+			}
 			this.setChildrenString(sb.toString());
 		}
+		System.out.println(this.getChildrenString());
 		return this.getChildrenString(); 
 	}
 

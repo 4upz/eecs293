@@ -29,7 +29,7 @@ public final class LeafNode implements Node {
 	 * Retrieves the token in this node
 	 * @return value stored in token
 	 */
-	private final Token getToken() {
+	public final Token getToken() {
 		return this.token;
 	}
 	
