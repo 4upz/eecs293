@@ -101,6 +101,7 @@ public class InternalNode implements Node {
 		if (this.getListConcat() == null) {	
 			List<Token> newList = new ArrayList<Token>();
 			//Add every token in each Node children to the new list
+			//List.addAll(node.toList())
 			for (Node node : this.getChildren()) {
 				for(Token token : node.toList()) {
 					newList.add(token);
@@ -123,11 +124,11 @@ public class InternalNode implements Node {
 			//Add the string output of each token to the new resulting string with brackets between each node
 			List<Node> children = this.getChildren();
 			for (Node node : children) {
-				sb.append("[");
+				sb.append("["); //Move before for-loop
 				sb.append(node.toString());
 				if(!(node instanceof LeafNode)) {
 					if(!((LeafNode)children.get(children.size() - 1)).getToken().matches(((LeafNode)node).getToken().getType())) {
-						sb.append(",");
+						sb.append(","); //Use sb to remove last char (',')
 					}
 				}
 			}

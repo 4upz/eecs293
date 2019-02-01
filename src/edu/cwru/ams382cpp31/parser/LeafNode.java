@@ -39,7 +39,7 @@ public final class LeafNode implements Node {
 	 * @return the newly constructed LeafNode that contains the given Token value
 	 */
 	public static final LeafNode build(Token token) {
-		Objects.requireNonNull(token, "Token type cannot be null");
+		Objects.requireNonNull(token, "Token type cannot be null"); //Put into one line
 		LeafNode newLeaf = new LeafNode(token);
 		return newLeaf;
 	}
