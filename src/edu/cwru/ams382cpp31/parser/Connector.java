@@ -19,6 +19,11 @@ public final class Connector extends AbstractToken {
 	private TerminalSymbol type;
 	
 	/**
+	 * A cache used to avoid creating duplicate variables with the same representation
+	 */
+	private static Cache<TerminalSymbol, Connector> cache = new Cache<>();
+	
+	/**
 	 * Constructs a connector, given the type of the terminal symbol
 	 * @param type	the type of the terminal symbol to be represented by the connector
 	 */
@@ -40,7 +45,7 @@ public final class Connector extends AbstractToken {
 		Objects.requireNonNull(type, "The terminal symbol should not be null!");
 		
 		if (isValidType(type)) {
-			return new Connector(type);
+			return cache.get(type, Connector::new);
 		}
 		else {
 			throw new IllegalArgumentException("The input terminal symbol type is invalid!");

@@ -20,7 +20,7 @@ public final class Variable extends AbstractToken {
 	/**
 	 * A cache used to avoid creating duplicate variables with the same representation
 	 */
-	private static Cache<String, Variable> cache = new Cache<String, Variable>();
+	private static Cache<String, Variable> cache = new Cache<>();
 	
 	/**
 	 * Constructs a Variable with a given string representation

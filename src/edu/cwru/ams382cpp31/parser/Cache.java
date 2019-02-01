@@ -38,8 +38,14 @@ final class Cache<T, V> {
 		Objects.requireNonNull(key, "The key should not be null!");
 		Objects.requireNonNull(constructor, "The constructor function should not be null!");
 		
-		// Retrieves the key if one exists and applies it if it doesn't
-		return cache.containsKey(key) ? cache.get(key) : cache.put(key,  constructor.apply(key));
+		if (!cache.containsKey(key)) {
+			cache.put(key, constructor.apply(key));
+		}
+		else {
+			// Do nothing because the key is already in the cache
+		}
+
+		return cache.get(key);
 		
 	}
 	
