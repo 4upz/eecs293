@@ -54,6 +54,9 @@ class LeafNodeTest {
 		node = LeafNode.build(c);
 		assertEquals("'c' Variable Test", "c", node.toString());
 		
+		//Test null
+		assertEquals("Testing a null value", new NullPointerException(), LeafNode.build(null));
+		
 	}
 
 	/**
