@@ -47,15 +47,18 @@ class LeafNodeTest {
 		assertEquals("Divide Token Test", "/", node.toString());
 
 		//Test the Variables
-		node = LeafNode.build(a);
+		node = LeafNode.build(Variable.build("a"));
 		assertEquals("'a' Variable Test", "a", node.toString());
-		node = LeafNode.build(b);
+		node = LeafNode.build(Variable.build("b"));
 		assertEquals("'b' Variable Test", "b", node.toString());
-		node = LeafNode.build(c);
+		node = LeafNode.build(Variable.build("c"));
 		assertEquals("'c' Variable Test", "c", node.toString());
 		
-		//Test null
-		assertEquals("Testing a null value", new NullPointerException(), LeafNode.build(null));
+		try {
+            LeafNode.build(null);
+        } catch (NullPointerException e) {
+            assertEquals("Null Token Test", "Token type cannot be null", e.getMessage());
+        }
 		
 	}
 
