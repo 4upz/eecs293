@@ -3,6 +3,8 @@
  */
 package edu.cwru.ams382cpp31.parser;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +24,20 @@ public final class Connector extends AbstractToken {
 	 * A cache used to avoid creating duplicate variables with the same representation
 	 */
 	private static Cache<TerminalSymbol, Connector> cache = new Cache<>();
+	
+	/**
+	 * The list of valid types for a connector
+	 */
+	private static final List<TerminalSymbol> validTypes = Arrays.asList(new TerminalSymbol[] {
+		TerminalSymbol.CLOSE,
+		TerminalSymbol.DIVIDE,
+		TerminalSymbol.MINUS,
+		TerminalSymbol.OPEN,
+		TerminalSymbol.PLUS,
+		TerminalSymbol.TIMES
+	});
+	
+	
 	
 	/**
 	 * Constructs a connector, given the type of the terminal symbol
@@ -62,17 +78,7 @@ public final class Connector extends AbstractToken {
 	 * 			false otherwise
 	 */
 	private static boolean isValidType(TerminalSymbol type) {
-		switch ( type ) {
-		case CLOSE:
-		case DIVIDE:
-		case MINUS:
-		case OPEN:
-		case PLUS:
-		case TIMES:
-			return true;
-		default:
-			return false;
-		}
+		return validTypes.contains(type);
 	}
 	
 	/**

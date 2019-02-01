@@ -23,7 +23,7 @@ final class Cache<T, V> {
 	/**
 	 * A constructor used to build a HashMap to store the non-duplicate elements
 	 */
-	Cache(){
+	Cache() {
 		this.cache = new HashMap<T, V>();
 	}
 	
