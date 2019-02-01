@@ -20,7 +20,9 @@ class LeafNodeTest {
 	Connector minus = Connector.build(TerminalSymbol.MINUS);
 	Connector multiply = Connector.build(TerminalSymbol.TIMES);
 	Connector divide = Connector.build(TerminalSymbol.DIVIDE);
-			
+	Connector open = Connector.build(TerminalSymbol.OPEN);
+	Connector close = Connector.build(TerminalSymbol.CLOSE);
+	
 	//Variables to be used in testing
 	Variable a = Variable.build("a");
 	Variable b = Variable.build("b");
@@ -45,13 +47,17 @@ class LeafNodeTest {
 		assertEquals("Multiply Token Test", "*", node.toString());
 		node = LeafNode.build(divide);
 		assertEquals("Divide Token Test", "/", node.toString());
-
+		node = LeafNode.build(open);
+		assertEquals("Open Paranthesis Token Test", "(", node.toString());
+		node = LeafNode.build(close);
+		assertEquals("Closed Paranthesis Token Test", ")", node.toString());
+		
 		//Test the Variables
-		node = LeafNode.build(Variable.build("a"));
+		node = LeafNode.build(a);
 		assertEquals("'a' Variable Test", "a", node.toString());
-		node = LeafNode.build(Variable.build("b"));
+		node = LeafNode.build(b);
 		assertEquals("'b' Variable Test", "b", node.toString());
-		node = LeafNode.build(Variable.build("c"));
+		node = LeafNode.build(c);
 		assertEquals("'c' Variable Test", "c", node.toString());
 		
 		try {
@@ -80,11 +86,11 @@ class LeafNodeTest {
 		assertEquals("Divide Token Test", Arrays.asList(divide), node.toList());
 		
 		//Test some Variables
-		node = LeafNode.build(a);
+		node = LeafNode.build(Variable.build("a"));
 		assertEquals("'a' Variable Test", Arrays.asList(a), node.toList());
-		node = LeafNode.build(b);
+		node = LeafNode.build(Variable.build("b"));
 		assertEquals("'b' Variable Test", Arrays.asList(b), node.toList());
-		node = LeafNode.build(c);
+		node = LeafNode.build(Variable.build("c"));
 		assertEquals("'c' Variable Test", Arrays.asList(c), node.toList());
 	}
 
