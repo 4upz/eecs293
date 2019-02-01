@@ -107,7 +107,7 @@ class InternalNodeTest {
 		internalNodeThree = InternalNode.build(Arrays.asList(internalNodeOne, internalNodeTwo)); 
 		assertEquals("Test with two InternalNodes as children", "a-b+c", internalNodeThree.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("Two-InternalNode Test of String copy", "a-b+c", internalNodeThree.toString());
+		assertEquals("Two-Internal Node Test of String copy", "a-b+c", internalNodeThree.toString());
 	}
 
 }
