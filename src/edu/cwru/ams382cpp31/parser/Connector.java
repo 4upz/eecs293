@@ -26,7 +26,7 @@ public final class Connector extends AbstractToken {
 	private static Cache<TerminalSymbol, Connector> cache = new Cache<>();
 	
 	/**
-	 * The list of valid types for a connector
+	 * The list of valid types for a connector, which are CLOSE, DIVIDE, MINUS, OPEN, PLUS, TIMES.
 	 */
 	private static final List<TerminalSymbol> validTypes = Arrays.asList(new TerminalSymbol[] {
 		TerminalSymbol.CLOSE,
@@ -36,8 +36,6 @@ public final class Connector extends AbstractToken {
 		TerminalSymbol.PLUS,
 		TerminalSymbol.TIMES
 	});
-	
-	
 	
 	/**
 	 * Constructs a connector, given the type of the terminal symbol
@@ -82,27 +80,12 @@ public final class Connector extends AbstractToken {
 	}
 	
 	/**
-	 * Returns the string representation of the connector
-	 * @return	the string representation of the connector
+	 * Returns the string representation of the connector type
+	 * @return	the string representation of the connector type
 	 */
 	@Override
 	public String toString() {
-		switch ( this.getType() ) {
-		case CLOSE:
-			return ")";
-		case DIVIDE:
-			return "/";
-		case MINUS:
-			return "-";
-		case OPEN:
-			return "(";
-		case PLUS:
-			return "+";
-		case TIMES:
-			return "*";
-		default:
-			throw new IllegalArgumentException("Invalid type of the connector!");
-		}
+		return this.getType().getRepresentation();
 	}
 
 }
