@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Arik Stewart
  * @author Kyle Pham
+ * A class using JUnit5 to test the methods in the class LeafNode
  */
 class LeafNodeTest {
 
@@ -84,13 +85,17 @@ class LeafNodeTest {
 		assertEquals("Multiply Token Test", Arrays.asList(multiply), node.toList());
 		node = LeafNode.build(divide);
 		assertEquals("Divide Token Test", Arrays.asList(divide), node.toList());
+		node = LeafNode.build(open);
+		assertEquals("Open Paranthesis Token Test", Arrays.asList(open), node.toList());
+		node = LeafNode.build(close);
+		assertEquals("Closed Paranthesis Token Test", Arrays.asList(close), node.toList());
 		
 		//Test some Variables
-		node = LeafNode.build(Variable.build("a"));
+		node = LeafNode.build(a);
 		assertEquals("'a' Variable Test", Arrays.asList(a), node.toList());
-		node = LeafNode.build(Variable.build("b"));
+		node = LeafNode.build(b);
 		assertEquals("'b' Variable Test", Arrays.asList(b), node.toList());
-		node = LeafNode.build(Variable.build("c"));
+		node = LeafNode.build(c);
 		assertEquals("'c' Variable Test", Arrays.asList(c), node.toList());
 	}
 

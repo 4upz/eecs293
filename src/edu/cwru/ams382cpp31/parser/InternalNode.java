@@ -44,7 +44,7 @@ public class InternalNode implements Node {
 	 * Retrieves the list of node children
 	 * @return the value stored in children
 	 */
-	public List<Node> getChildren() {
+	private final List<Node> getChildren() {
 		return this.children;
 	}
 	
@@ -52,7 +52,7 @@ public class InternalNode implements Node {
 	 * Retrieves the stored concatenation of the node children
 	 * @return a list of Tokens from the node children stored in this InternalNode
 	 */
-	public List<Token> getListConcat() {
+	private final List<Token> getListConcat() {
 		return this.listConcat;
 	}
 	
@@ -60,15 +60,15 @@ public class InternalNode implements Node {
 	 * Retrieves the stored String of the Token values stored in the node children
 	 * @return
 	 */
-	public String getChildrenString() {
-		return this.getChildrenString();
+	private final String getChildrenString() {
+		return this.childrenString;
 	}
 	
 	/**
 	 * Sets the value of childrenString to a new String value
 	 * @param newString new String to be stored
 	 */
-	private void setChildrenString(String newString) {
+	private final void setChildrenString(String newString) {
 		this.childrenString = newString;
 	}
 	
@@ -76,7 +76,7 @@ public class InternalNode implements Node {
 	 * Sets the value of listConcat once a concatenation has been created in toList()
 	 * @param newConcat the new Token List that is to be stored
 	 */
-	private void setListConcat(List<Token> newConcat) {
+	private final void setListConcat(List<Token> newConcat) {
 		this.listConcat = newConcat;
 	}
 	
@@ -119,16 +119,17 @@ public class InternalNode implements Node {
 	public final String toString() {
 		//If a String output hasn't already been made...
 		if (this.getChildrenString() == null) {	
-			String result = "";
+			StringBuilder sb = new StringBuilder();
 			//Add the string output of each token to the new resulting string with brackets between each node
 			for (Node node : this.getChildren()) {
-				result += "[" + node.toString();
+//				result += "[";
+				sb.append(node.toList().toString().replace("]", "").replace("[", ""));
 			}
-			//Add a closing bracket for every group of opening brackets
-			for (int i = 0; i < this.getChildren().size(); i++) {
-				result += "]";
-			}
-			this.setChildrenString(result);
+//			//Add a closing bracket for every group of opening brackets
+//			for (int i = 0; i < this.getChildren().size(); i++) {
+//				sb.append("]");
+//			}
+			this.setChildrenString(sb.toString());
 		}
 		return this.getChildrenString(); 
 	}
