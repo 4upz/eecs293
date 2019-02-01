@@ -38,6 +38,10 @@ public final class Variable extends AbstractToken {
 		return this.representation;
 	}
 	
+	/**
+	 * Inherited method that retrieves the current TerminalSymbol type of the variable instance
+	 * @return 	the terminal symbol type VARIABLE
+	 */
 	@Override
 	public TerminalSymbol getType() {
 		return TerminalSymbol.VARIABLE;
@@ -54,6 +58,10 @@ public final class Variable extends AbstractToken {
 		return cache.get(representation, Variable::new);
 	}
 	
+	/**
+	 * Overridden method that returns the string representation of the variable
+	 * @return	the string representation of the variable
+	 */
 	@Override
 	public String toString(){
 		return this.getRepresentation();

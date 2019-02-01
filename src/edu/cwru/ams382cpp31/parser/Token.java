@@ -23,21 +23,4 @@ public interface Token {
 	 */
 	boolean matches(TerminalSymbol type);
 	
-//	/**
-//	 * Abstract class used for checking if tokens are matching
-//	 * @author Arik Stewart
-//	 * @author Kyle Pham
-//	 */
-//	public abstract class AbstractToken implements Token {
-//		
-//		/**
-//		 * Inherited method that determines if the current Token type matches a given type
-//		 * @return a boolean value based on match result
-//		 */
-//		public final boolean matches(TerminalSymbol type) {
-//			return this.getType() == type;
-//		}
-//		
-//	}
-	
 }

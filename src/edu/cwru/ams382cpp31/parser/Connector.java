@@ -31,6 +31,10 @@ public final class Connector extends AbstractToken {
 		this.type = type;
 	}
 	
+	/**
+	 * Retrieves the current TerminalSymbol type of the connector instance
+	 * @return	the type of the connector
+	 */
 	@Override
 	public TerminalSymbol getType() {
 		return this.type;
@@ -75,6 +79,7 @@ public final class Connector extends AbstractToken {
 	 * Returns the string representation of the connector
 	 * @return	the string representation of the connector
 	 */
+	@Override
 	public String toString() {
 		switch ( this.getType() ) {
 		case CLOSE:

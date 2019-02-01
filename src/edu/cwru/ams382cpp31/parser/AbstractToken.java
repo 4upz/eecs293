@@ -10,13 +10,17 @@ package edu.cwru.ams382cpp31.parser;
  */
 public abstract class AbstractToken implements Token {
 
+	/**
+	 * Inherited method that retrieves the current TerminalSymbol type of the token instance
+	 * @return enum value stored in Token type
+	 */
 	@Override
 	public abstract TerminalSymbol getType(); 
 	
 	/**
-//	 * Inherited method that determines if the current Token type matches a given type
-//	 * @return a boolean value based on match result
-//	 */
+	 * Inherited method that determines if the current Token type matches a given type
+	 * @return a boolean value based on match result
+	 */
 	@Override
 	public boolean matches(TerminalSymbol type) {
 		return this.getType() == type;

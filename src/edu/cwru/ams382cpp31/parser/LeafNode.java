@@ -11,7 +11,9 @@ import java.util.*;
  */
 public final class LeafNode implements Node {
 	
-	//Token that is in this leaf node
+	/**
+	 * Token that is stored in this leaf node
+	 */
 	private final Token token;
 	
 	/**
