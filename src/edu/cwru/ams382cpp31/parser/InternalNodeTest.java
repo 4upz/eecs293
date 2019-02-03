@@ -52,17 +52,17 @@ class InternalNodeTest {
 		//Test with more than one single-node children
 		List<Token> testList = new ArrayList<Token>();
 		testList.add(a);
-		testList.add(minus);
+		testList.add(add);
 		testList.add(b);
-		internalNodeOne = InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(minus), LeafNode.build(b)));
+		internalNodeOne = InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b)));
 		assertEquals("Test with more than one Node Children", testList, internalNodeOne.toList());
 		//Once more to make sure the method saves the list after initial call
 		assertEquals("One-Node Test of list copy", testList, internalNodeOne.toList());
 		
 		//Test with one single-node child and one InternalNode child
-		leafNode = LeafNode.build(add);
+		leafNode = LeafNode.build(divide);
 		internalNodeTwo = InternalNode.build(Arrays.asList(internalNodeOne, leafNode));
-		testList.add(add);
+		testList.add(divide);
 		assertEquals("Test with one node and InternalNode as children", testList, internalNodeTwo.toList());
 		//Once more to make sure the method saves the list after initial call
 		assertEquals("One-Node and InternalNode Test of list copy", testList, internalNodeTwo.toList());
@@ -84,30 +84,37 @@ class InternalNodeTest {
 	@Test
 	final void testToString() {
 		//Test with one single-node child
-		leafNode = LeafNode.build(add);
+		leafNode = LeafNode.build(a);
 		internalNodeOne = InternalNode.build(Arrays.asList(leafNode));
-		assertEquals("Test with only one Node Children", "[+]", internalNodeOne.toString());
+		assertEquals("Test with only one Node Children", "[a]", internalNodeOne.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("One-Node Test of String copy", "[+]", internalNodeOne.toString());
+		assertEquals("One-Node Test of String copy", "[a]", internalNodeOne.toString());
 
-		internalNodeOne = InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(minus), LeafNode.build(b)));
-		assertEquals("Test with more than one Node Children", "[a,[-,[b]]]", internalNodeOne.toString());
+		internalNodeOne = InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b)));
+		assertEquals("Test with more than one Node Children", "[a,[+,[b]]]", internalNodeOne.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("More than one One-Node Test of String copy", "[a,[-,[b]]]", internalNodeOne.toString());
+		assertEquals("More than one One-Node Test of String copy", "[a,[+,[b]]]", internalNodeOne.toString());
 				
 		//Test with one single-node child and one InternalNode child
-		leafNode = LeafNode.build(add);
+		leafNode = LeafNode.build(divide);
 		internalNodeTwo = InternalNode.build(Arrays.asList(internalNodeOne, leafNode));
-		assertEquals("Test with one node and InternalNode as children", "[[a,[-,[b,[+]]]]]", internalNodeTwo.toString());
+		assertEquals("Test with one node and InternalNode as children", "[a,+,b,[/]]", internalNodeTwo.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("One-Node and InternalNode Test of String copy", "[[a,[-,[b,[+]]]]]", internalNodeTwo.toString());
+		assertEquals("One-Node and InternalNode Test of String copy", "[a,+,b,[/]]", internalNodeTwo.toString());
 				
 		//Test with more than one InternalNode children
 		internalNodeTwo = InternalNode.build(Arrays.asList(leafNode, LeafNode.build(c)));
 		internalNodeThree = InternalNode.build(Arrays.asList(internalNodeOne, internalNodeTwo)); 
-		assertEquals("Test with two InternalNodes as children", "[a,[-,[b,[+,[c]]]]]", internalNodeThree.toString());
+		assertEquals("Test with two InternalNodes as children", "[a,+,b,[/,c]]", internalNodeThree.toString());
 		//Once more to make sure the method saves the list after initial call
-		assertEquals("Two-Internal Node Test of String copy", "[a,[-,[b,[+,[c]]]]]", internalNodeThree.toString());
+		assertEquals("Two-Internal Node Test of String copy", "[a,+,b,[/,c]]", internalNodeThree.toString());
+		
+		//Special Test with list tree set up as example given in instructions
+		internalNodeThree = InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b), internalNodeTwo));
+		assertEquals("Test Example List Tree Setup", "[a,[+,[b,[/,c]]]]", internalNodeThree.toString());
+		//Once more to test the stored copy of the String
+		assertEquals("Test Example List Tree Setup of String copy", "[a,[+,[b,[/,c]]]]", internalNodeThree.toString());
+
 	}
 
 }

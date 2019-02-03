@@ -44,7 +44,7 @@ public class InternalNode implements Node {
 	 * Retrieves the list of node children
 	 * @return the value stored in children
 	 */
-	private final List<Node> getChildren() {
+	public final List<Node> getChildren() {
 		return this.children;
 	}
 	
@@ -101,12 +101,7 @@ public class InternalNode implements Node {
 		if (this.getListConcat() == null) {	
 			List<Token> newList = new ArrayList<Token>();
 			//Add every token in each Node children to the new list
-			//List.addAll(node.toList())
-			for (Node node : this.getChildren()) {
-				for(Token token : node.toList()) {
-					newList.add(token);
-				}
-			}
+			this.getChildren().forEach(child -> newList.addAll(child.toList()));
 			this.setListConcat(newList);
 		}
 		return this.getListConcat();
@@ -120,26 +115,25 @@ public class InternalNode implements Node {
 	public final String toString() {
 		//If a String output hasn't already been made...
 		if (this.getChildrenString() == null) {	
+			//StringBuilder for String to be formatted
 			StringBuilder sb = new StringBuilder();
+			//StringBuilder for closing brackets
+			StringBuilder sb2 = new StringBuilder();
 			//Add the string output of each token to the new resulting string with brackets between each node
 			List<Node> children = this.getChildren();
-			sb.append("[");
 			for (Node node : children) {
-				sb.append("["); //Move before for-loop
-				sb.append(node.toString());
-				if(!(node instanceof LeafNode)) {
-					if(!((LeafNode)children.get(children.size() - 1)).getToken().matches(((LeafNode)node).getToken().getType())) {
-						sb.append(","); //Use sb to remove last char (',')
-					}
-				}
+				sb.append("[");
+				//Append the node to the string based on what kind of node it is
+				if(node instanceof InternalNode)
+					((InternalNode) node).getChildren().forEach(child -> sb.append(child.toString() + ","));
+				else
+					sb.append(node.toString() + ",");
+				sb2.append("]");
 			}
-			//Add a closing bracket for every group of opening brackets
-			for (int i = 0; i < this.getChildren().size(); i++) {
-				sb.append("]");
-			}
+			sb.append(sb2.toString()); //Add the closing brackets
+			sb.deleteCharAt(sb.lastIndexOf(",")); //Removes the last comma from the list
 			this.setChildrenString(sb.toString());
 		}
-		System.out.println(this.getChildrenString());
 		return this.getChildrenString(); 
 	}
 
