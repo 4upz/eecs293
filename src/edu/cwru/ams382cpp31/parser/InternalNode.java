@@ -122,8 +122,8 @@ public class InternalNode implements Node {
 			StringBuilder sb = new StringBuilder();
 			//Add the string output of each token to the new resulting string with brackets between each node
 			List<Node> children = this.getChildren();
+			sb.append("[");
 			for (Node node : children) {
-				sb.append("[");
 				sb.append(node.toString());
 				if(!(node instanceof LeafNode)) {
 					if(!((LeafNode)children.get(children.size() - 1)).getToken().matches(((LeafNode)node).getToken().getType())) {
