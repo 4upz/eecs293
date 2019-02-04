@@ -1,29 +1,39 @@
 /**
  * Contained in package for EECS 293 project
  */
-package edu.cwru.ams382cpp31.parser;
+package edu.cwru.ams382cpp31.parser.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import edu.cwru.ams382cpp31.parser.*;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+
+import org.junit.*;
+
+import org.junit.rules.ExpectedException;
 
 /**
  * @author Kyle Pham
  * @author Arik Stewart
  * A class using JUnit5 to test the methods in the class Variable
  */
-class VariableTest {
+public class VariableTest {
 
+	/**
+	 * Tests that a null exception is thrown from in class Connector when a null value is given in build()
+	 */
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+	
 	/**
 	 * Tests the methods in the class Variable
 	 */
 	@Test
-	void testVariable() {
+	public void testVariable() {
 		
 		// Test whether a NullPointerException is thrown when building a Variable with a null representation
-		assertThrows(NullPointerException.class, () -> {
-			Variable.build(null);
-		});
+		thrown.expect(Exception.class);
+		thrown.expectMessage("The string representation should not be null!");
+		Variable.build(null);
 		
 		// Test whether a Variable is built correctly with a given representation
 		// Also test the getRepresentation() method

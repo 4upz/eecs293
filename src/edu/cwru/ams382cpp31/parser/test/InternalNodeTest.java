@@ -1,20 +1,24 @@
 /**
  * 
  */
-package edu.cwru.ams382cpp31.parser;
+package edu.cwru.ams382cpp31.parser.test;
+
+import edu.cwru.ams382cpp31.parser.*;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import java.util.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * @author Arik Stewart
  * @author Kyle Pham
  * Class object to represent an internal node of tokens from the given expression
  */
-class InternalNodeTest {
+public class InternalNodeTest {
 
 	//Connectors to be used in testing
 	Connector add = Connector.build(TerminalSymbol.PLUS);
@@ -43,7 +47,7 @@ class InternalNodeTest {
 	 * Implicitly tests the build, getChildren, getListConcat, setListConcat methods using the cases
 	 */
 	@Test
-	final void testToList() {
+	public final void testToList() {
 		//Test with one single-node child
 		leafNode = LeafNode.build(add);
 		internalNodeOne = InternalNode.build(Arrays.asList(leafNode));
@@ -74,6 +78,13 @@ class InternalNodeTest {
 		assertEquals("Test with two InternalNodes as children", testList, internalNodeThree.toList());
 		//Once more to make sure the method saves the list after initial call
 		assertEquals("Two-InternalNode Test of list copy", testList, internalNodeThree.toList());
+		
+		//Test a null value for build
+		try {
+			InternalNode.build(null);
+		} catch (NullPointerException e) {
+		     assertEquals("Null Children Test", "Children list cannot be null", e.getMessage());
+		}
 	}
 
 	/**
@@ -82,7 +93,7 @@ class InternalNodeTest {
 	 * Implicitly tests the build, getChildren, getChildrenString, setChildrenString methods using the cases
 	 */
 	@Test
-	final void testToString() {
+	public final void testToString() {
 		//Test with one single-node child
 		leafNode = LeafNode.build(a);
 		internalNodeOne = InternalNode.build(Arrays.asList(leafNode));

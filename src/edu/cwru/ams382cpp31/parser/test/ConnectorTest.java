@@ -1,36 +1,57 @@
 /**
  * Contained in package for EECS 293 project
  */
-package edu.cwru.ams382cpp31.parser;
+package edu.cwru.ams382cpp31.parser.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import edu.cwru.ams382cpp31.parser.*;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+
+import org.junit.*;
+
+import org.junit.Test;
+
+import org.junit.rules.ExpectedException;
+
 
 /**
  * @author Kyle Pham
  * @author Arik Stewart
  * A class using JUnit5 to test the methods in the class Connector
  */
-class ConnectorTest {
+public class ConnectorTest {
 
 	/**
-	 * Tests the methods in the class Variable
+	 * Tests that a null exception is thrown from in class Connector when a null value is given in build()
+	 */
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+	
+	@Test
+	public void testNull() throws NullPointerException {
+		thrown.expect(Exception.class);
+		thrown.expectMessage("The terminal symbol should not be null!");
+		Connector.build(null);
+	}
+	
+	/**
+	 * Tests that an IllegalArgumentException is thrown when an inappropriate type of TerminalSymbol is given in build()
+	 */
+	
+	@Test
+	public void  testIllegalArgument() throws IllegalArgumentException{
+		thrown.expect(Exception.class);
+		thrown.expectMessage("The input terminal symbol type is invalid!");
+		TerminalSymbol type_1 = TerminalSymbol.VARIABLE;
+		Connector.build(type_1);
+	}
+	
+	/**
+	 * Tests the methods in the class Connector
 	 */
 	@Test
-	void testConnector() {
+	public void testConnector() {
 
-		// Test whether a NullPointerException is thrown when building a Connector with a null type
-		assertThrows(NullPointerException.class, () -> {
-			Connector.build(null);
-		});
-		
-		// Test whether an IllegalArgumentException is thrown when an inappropriate type of TerminalSymbol is given in build()
-		TerminalSymbol type_1 = TerminalSymbol.VARIABLE;
-		assertThrows(IllegalArgumentException.class, () -> {
-			Connector.build(type_1);
-		});
-		
 		// Test the getType(), build(), and toString() method with the input being TerminalSymbol.PLUS
 		testValidSymbols(TerminalSymbol.PLUS, "+");
 		

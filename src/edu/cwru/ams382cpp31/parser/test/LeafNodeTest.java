@@ -1,20 +1,22 @@
 /**
  * Contained in package for EECS 293 project
  */
-package edu.cwru.ams382cpp31.parser;
+package edu.cwru.ams382cpp31.parser.test;
+
+import edu.cwru.ams382cpp31.parser.*;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
+import java.util.Arrays;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * @author Arik Stewart
  * @author Kyle Pham
  * A class using JUnit5 to test the methods in the class LeafNode
  */
-class LeafNodeTest {
+public class LeafNodeTest {
 
 	//Connectors to be used in testing
 	Connector add = Connector.build(TerminalSymbol.PLUS);
@@ -38,7 +40,7 @@ class LeafNodeTest {
 	 * The build method, getToken and constructor in LeafNode is implicitly tested using the cases
 	 */
 	@Test
-	final void testToString() {
+	public final void testToString() {
 		//Test the Connectors
 		node = LeafNode.build(add);
 		assertEquals("Add Token Test", "+", node.toString());
@@ -61,6 +63,7 @@ class LeafNodeTest {
 		node = LeafNode.build(c);
 		assertEquals("'c' Variable Test", "c", node.toString());
 		
+		//Test a null value for build
 		try {
             LeafNode.build(null);
         } catch (NullPointerException e) {
@@ -75,7 +78,7 @@ class LeafNodeTest {
 	 * The build method, getToken and constructor in LeafNode is implicitly tested using the cases
 	 */
 	@Test
-	final void testToList() {
+	public final void testToList() {
 		//Test the Connectors
 		node = LeafNode.build(add);
 		assertEquals("Add Token Test", Arrays.asList(add), node.toList());
