@@ -115,10 +115,8 @@ public class InternalNode implements Node {
 	public final String toString() {
 		//If a String output hasn't already been made...
 		if (this.getChildrenString() == null) {	
-			//StringBuilder for String to be formatted
-			StringBuilder sb = new StringBuilder();
-			//StringBuilder for closing brackets
-			StringBuilder sb2 = new StringBuilder();
+			StringBuilder sb = new StringBuilder();		// StringBuilder for String to be formatted
+			StringBuilder sb2 = new StringBuilder();	// StringBuilder for closing brackets		
 			//Add the string output of each token to the new resulting string with brackets between each node
 			List<Node> children = this.getChildren();
 			for (Node node : children) {

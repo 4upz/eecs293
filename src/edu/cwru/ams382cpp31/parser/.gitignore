@@ -14,3 +14,5 @@
 /ConnectorTest.class
 /VariableTest.class
 /InternalNodeTest.class
+/ParseState.class
+/Symbol.class
