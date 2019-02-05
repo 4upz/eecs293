@@ -7,7 +7,7 @@ Software Craftsmanship Fun With Kyle and Arik
 ## Prerequisites (Software Needed)
 * Eclipse Java, 2018
 
-# Class Hierarchy and Descriptions
+# Class Hierarchy and Descriptions - HW2 Implementations
 The project in this package will be used to translate a sequence representation of a numerical expression into a compact tree representation
 
 ## Cache
@@ -70,5 +70,51 @@ Public interface representation of a node within the tree.
 * **toList()** - `public final` returns the concatenation of the children's lists, or a copy of the precomputed lists if already created (since the list will not change)
 * **toString()** - override that returns the children in a result formatted by square parenthesis separated by comma, or returns a copy of computed in the past (since the string will not change)
 		Ex: [a,[+,[b,[/,c]]]]
+		
+************************************************************************************************************************************
+# Homework 3 Implementations
+
+## ParseState
+`private final class` with a private constructor. Represents the current state of the tree-parsing process
+* success - `private final boolean` denotes whether the parsing process was successful, with a getter
+* node - `private final Node` that is the result of parsing an initial prefix of the list, with a getter, 
+* remainder - `private final List<Token>` the part of the initial token list that was left over after parsing the `Node`. Getter returns a copy of the private variable
+* hasNoRemainder - `private final boolean` returns whether there is no remainder
+* FAILURE - `final static ParseState` with `success` equal to false, as well as a `node` and `remainder` equal to null
+* build - `public static final` returns a non-failure parse state and specifically it returns a new `ParseState` with the given `node` and a copy of the given remainder list. Throws a `NullPointerException` with message if argument is null
+
+## Symbol
+`private interface Symbol` that is an input parser that builds a tree node
+* parse(List<Token> input) - `private ParseState` that parses the `input` into a node, possibly leaving a `remainder`. `success` will be true if the parsing process was successful and false otherwise
+
+## TerminalSymbol
+Now implements `Symbol` and parses a token list by serving as a builder of leaves from tokens.
+
+## SymbolSequence
+`private final class`  that serves as an individual symbol and a builder of one tree node or the children of an internal node
+* production - `private final List<Symbol>` 
+* constructor - `private` that sets the production value
+* build - returns a new `SymbolSequence` with the given production, or throws `NullPointerException` with an appropriate error message if the argument is null
+* build - A second build method that takes a variable number of arguments `static final SymbolSequence build(Symbol... symbols)` 
+**SymbolSequences Should not be cached**
+* EPSILON - `static final SymbolSequence` with an empty production
+* toString - delegates the method to its production
+* ParseState match (List<Token> input) - returns a successful `ParseState` if all the symbols in the production can be matched with the input, and FAILURE otherwise. Throws a `NullPointerException` with an appropriate error message if the input is null
+
+## NonTerminalSymbol
+An enum that implements `Symbol` and serves as a builder of internal nodes during parsing
+* EXPRESSION : TERM EXPRESSION-TAIL
+* EXPRESSION_TAIL : + TERM EXPRESSION_TAIL, - TERM EXPRESSION-TAIL, EPSILON
+* TERM : UNARY TERM_TAIL
+* TERM_TAIL: * UNARY TERM-TAIL, / UNARY TERM_TAIL, EPSILON
+* UNARY : - FACTOR, FACTOR
+* FACTOR : (EXPRESSION), VARIABLE
+* parseInput(List<Token< input) - `static final optional<Node>` attempts to parse the input with an `EXPRESSION` and returns the root node if the parsing process is successful and has no remainder, and an empty `Optional` otherwise. Throws a `NullPointerException` with appropriate message if the input is null
+
+Make sure to run the parseInput on the example [a, +, b, /, c]
+
+
+
+
 
 
