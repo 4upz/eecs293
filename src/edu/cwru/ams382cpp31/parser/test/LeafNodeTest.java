@@ -14,7 +14,7 @@ import org.junit.Test;
 /**
  * @author Arik Stewart
  * @author Kyle Pham
- * A class using JUnit5 to test the methods in the class LeafNode
+ * A class using JUnit4 to test the methods in the class LeafNode
  */
 public class LeafNodeTest {
 

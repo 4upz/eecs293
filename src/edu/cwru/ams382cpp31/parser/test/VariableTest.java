@@ -1,7 +1,8 @@
+package edu.cwru.ams382cpp31.parser.test;
 /**
  * Contained in package for EECS 293 project
  */
-package edu.cwru.ams382cpp31.parser.test;
+
 
 import edu.cwru.ams382cpp31.parser.*;
 
@@ -14,7 +15,7 @@ import org.junit.rules.ExpectedException;
 /**
  * @author Kyle Pham
  * @author Arik Stewart
- * A class using JUnit5 to test the methods in the class Variable
+ * A class using JUnit4 to test the methods in the class Variable
  */
 public class VariableTest {
 

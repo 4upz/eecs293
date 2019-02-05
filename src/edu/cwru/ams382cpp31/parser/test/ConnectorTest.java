@@ -17,7 +17,7 @@ import org.junit.rules.ExpectedException;
 /**
  * @author Kyle Pham
  * @author Arik Stewart
- * A class using JUnit5 to test the methods in the class Connector
+ * A class using JUnit4 to test the methods in the class Connector
  */
 public class ConnectorTest {
 

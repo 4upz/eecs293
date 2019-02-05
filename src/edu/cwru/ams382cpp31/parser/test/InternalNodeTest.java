@@ -16,7 +16,7 @@ import org.junit.Test;
 /**
  * @author Arik Stewart
  * @author Kyle Pham
- * Class object to represent an internal node of tokens from the given expression
+ * A class using JUnit4 to test the methods in the class InternalNode
  */
 public class InternalNodeTest {
 
