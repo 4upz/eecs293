@@ -13,9 +13,9 @@ import java.util.List;
 interface Symbol {
 
 	/**
-	 * Parse the input token list into a node, creating a ParseState and 
-	 * @param input
-	 * @return
+	 * Parse the input token list into a node, creating a ParseState and possibly leaving a remainder
+	 * @param input	the list of token to be parsed into the node and remainder of a ParseState
+	 * @return		a ParseState with the node with the input and a (possibly nonempty) remainder 
 	 */
 	ParseState parse(List<Token> input);
 }

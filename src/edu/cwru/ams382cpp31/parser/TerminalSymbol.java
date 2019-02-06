@@ -3,12 +3,15 @@
  */
 package edu.cwru.ams382cpp31.parser;
 
+import java.util.List;
+
 /**
  * @author Arik Stewart
  * @author Kyle Pham
  * An enum that holds the value types used for symbols within the numerical expression
  */
-public enum TerminalSymbol {
+public enum TerminalSymbol implements Symbol {
+	
 	VARIABLE(null), // Letter variables
 	PLUS("+"), 	  // Plus sign for addition
 	MINUS("-"), 	  // Minus sign for subtraction
@@ -37,4 +40,11 @@ public enum TerminalSymbol {
 	public String getRepresentation() {
 		return this.representation;
 	}
+
+	@Override
+	public ParseState parse(List<Token> input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

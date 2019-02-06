@@ -71,7 +71,7 @@ final class ParseState {
 	 * @return	whether the parse state has a list of remainder tokens
 	 */
 	final boolean hasNoRemainder() {
-		return (getRemainder() != null);
+		return getRemainder().isEmpty();
 	}
 	
 	/**
