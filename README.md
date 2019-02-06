@@ -75,7 +75,7 @@ Public interface representation of a node within the tree.
 # Homework 3 Implementations
 
 ## ParseState
-`private final class` with a private constructor. Represents the current state of the tree-parsing process
+`final class` with a private constructor. Represents the current state of the tree-parsing process
 * success - `private final boolean` denotes whether the parsing process was successful, with a getter
 * node - `private final Node` that is the result of parsing an initial prefix of the list, with a getter, 
 * remainder - `private final List<Token>` the part of the initial token list that was left over after parsing the `Node`. Getter returns a copy of the private variable
@@ -84,25 +84,25 @@ Public interface representation of a node within the tree.
 * build - `public static final` returns a non-failure parse state and specifically it returns a new `ParseState` with the given `node` and a copy of the given remainder list. Throws a `NullPointerException` with message if argument is null
 
 ## Symbol
-`private interface Symbol` that is an input parser that builds a tree node
+`interface Symbol` that is an input parser that builds a tree node
 * parse(List<Token> input) - `private ParseState` that parses the `input` into a node, possibly leaving a `remainder`. `success` will be true if the parsing process was successful and false otherwise
 
 ## TerminalSymbol
 Now implements `Symbol` and parses a token list by serving as a builder of leaves from tokens.
 
 ## SymbolSequence
-`private final class`  that serves as an individual symbol and a builder of one tree node or the children of an internal node
+`final class`  that serves as an individual symbol and a builder of one tree node or the children of an internal node
 * production - `private final List<Symbol>` 
 * constructor - `private` that sets the production value
-* build - returns a new `SymbolSequence` with the given production, or throws `NullPointerException` with an appropriate error message if the argument is null
-* build - A second build method that takes a variable number of arguments `static final SymbolSequence build(Symbol... symbols)` 
+* build(List<Symbol> production) - returns a new `SymbolSequence` with the given production, or throws `NullPointerException` with an appropriate error message if the argument is null
+* build(Symbol... symbols) - A second build method that takes a variable number of arguments `static final SymbolSequence build(Symbol... symbols)` 
 **SymbolSequences Should not be cached**
 * EPSILON - `static final SymbolSequence` with an empty production
 * toString - delegates the method to its production
 * ParseState match (List<Token> input) - returns a successful `ParseState` if all the symbols in the production can be matched with the input, and FAILURE otherwise. Throws a `NullPointerException` with an appropriate error message if the input is null
 
 ## NonTerminalSymbol
-An enum that implements `Symbol` and serves as a builder of internal nodes during parsing
+An `enum` that implements `Symbol` and serves as a builder of internal nodes during parsing
 * EXPRESSION : TERM EXPRESSION-TAIL
 * EXPRESSION_TAIL : + TERM EXPRESSION_TAIL, - TERM EXPRESSION-TAIL, EPSILON
 * TERM : UNARY TERM_TAIL

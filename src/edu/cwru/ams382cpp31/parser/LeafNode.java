@@ -40,8 +40,7 @@ public final class LeafNode implements Node {
 	 */
 	public static final LeafNode build(Token token) {
 		Objects.requireNonNull(token, "Token type cannot be null"); //Put into one line
-		LeafNode newLeaf = new LeafNode(token);
-		return newLeaf;
+		return new LeafNode(token);
 	}
 	
 	/**
