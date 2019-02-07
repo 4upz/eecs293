@@ -20,7 +20,7 @@ final class SymbolSequence {
 	/*
 	 * Represents a SymbolSequence state with an empty production
 	 */
-	private static final SymbolSequence EPSILON = new SymbolSequence(new ArrayList<Symbol>());
+	static final SymbolSequence EPSILON = new SymbolSequence(new ArrayList<Symbol>());
 	
 	/*
 	 * Constructor that initializes class and sets value for production
