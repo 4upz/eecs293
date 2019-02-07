@@ -23,4 +23,6 @@ public interface Token {
 	 */
 	boolean matches(TerminalSymbol type);
 	
+	boolean equals(Object object);
+	
 }

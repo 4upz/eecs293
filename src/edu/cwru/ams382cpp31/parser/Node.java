@@ -16,6 +16,12 @@ public interface Node {
 	 * Method stub for the toList method which returns a list representation of a subtree
 	 * @return	the List of nodes that represents the subtree rooted at the current node
 	 */
-	abstract List<Token> toList();
+	List<Token> toList();
 	
+	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
+	boolean equals(Object object);
 }

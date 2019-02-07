@@ -3,6 +3,7 @@
  */
 package edu.cwru.ams382cpp31.parser;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,7 +64,7 @@ final class ParseState {
 	 * @return	the remainder list of tokens that was left over after parsing the first node
 	 */
 	final List<Token> getRemainder() {
-		return remainder;
+		return new LinkedList<>(remainder);
 	}
 	
 	/**
@@ -86,5 +87,5 @@ final class ParseState {
 		
 		return new ParseState(true, node, remainder);
 	}
-	
+
 }

@@ -26,4 +26,8 @@ public abstract class AbstractToken implements Token {
 		return this.getType() == type;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		return object != null && object instanceof AbstractToken && ((AbstractToken) object).matches(this.getType());
+	}
 }

@@ -41,10 +41,22 @@ public enum TerminalSymbol implements Symbol {
 		return this.representation;
 	}
 
+	/**
+	 * Parses the token list, checking whether the first token matches the terminal type, uses it as the node (leaf)
+	 * and makes the rest of the list the remainder if matched, or return a failure otherwise.
+	 * @param input		the input token list to be parsed
+	 * @return			a ParseState with leaf node built from the first token and the remainder being the rest of the list
+	 * 					if the first token matches the terminal type, or a failure ParseState otherwise
+	 */
 	@Override
 	public ParseState parse(List<Token> input) {
-		// TODO Auto-generated method stub
-		return null;
+		if (input.get(0).matches(this)) {
+			// Return a new ParseState with leaf node built from the first token and the remainder being the rest of the list
+			return ParseState.build(LeafNode.build(input.get(0)), input.subList(1, input.size()));
+		}
+		else {
+			return ParseState.FAILURE;
+		}
 	}
-	
+
 }

@@ -62,6 +62,9 @@ public final class LeafNode implements Node {
 		return newList;
 	}
 	
-	
+	@Override
+	public boolean equals(Object object) {
+		return object != null && object instanceof LeafNode && ((LeafNode) object).getToken().equals(this.getToken());
+	}
 	
 }

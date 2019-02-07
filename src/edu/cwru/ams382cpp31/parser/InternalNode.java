@@ -45,7 +45,7 @@ public class InternalNode implements Node {
 	 * @return the value stored in children
 	 */
 	public final List<Node> getChildren() {
-		return this.children;
+		return new LinkedList<>(this.children);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class InternalNode implements Node {
 	 * @return a list of Tokens from the node children stored in this InternalNode
 	 */
 	private final List<Token> getListConcat() {
-		return this.listConcat;
+		return this.listConcat == null ? null : new LinkedList<>(this.listConcat);
 	}
 	
 	/**
@@ -121,9 +121,9 @@ public class InternalNode implements Node {
 			for (Node node : children) {
 				sb.append("[");
 				//Append the node to the string based on what kind of node it is
-				if(node instanceof InternalNode)
+				if (node instanceof InternalNode)
 					((InternalNode) node).getChildren().forEach(child -> sb.append(child.toString() + ","));
-				else
+				else	// the node is a leaf node
 					sb.append(node.toString() + ",");
 				sb2.append("]");
 			}
@@ -134,4 +134,10 @@ public class InternalNode implements Node {
 		return this.getChildrenString(); 
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		return object != null 
+				&& object instanceof InternalNode 
+				&& this.toString().equals(((InternalNode) object).toString());
+	}
 }
