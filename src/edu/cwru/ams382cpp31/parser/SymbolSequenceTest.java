@@ -93,7 +93,7 @@ public class SymbolSequenceTest {
 
 		//Test a sequence with multiple NonTerminalSymbol values in production
 		
-		//Test a failure case for a mached sequence
+		//Test a failure case for a matched sequence
 		
 	}
 
