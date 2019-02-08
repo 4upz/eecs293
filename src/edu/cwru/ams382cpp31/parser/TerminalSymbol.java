@@ -3,7 +3,9 @@
  */
 package edu.cwru.ams382cpp31.parser;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Arik Stewart
@@ -50,9 +52,12 @@ public enum TerminalSymbol implements Symbol {
 	 */
 	@Override
 	public ParseState parse(List<Token> input) {
-		if (input.get(0).matches(this)) {
+		Objects.requireNonNull(input, "The input token list must not be null!");
+		
+		if (!input.isEmpty() && input.get(0).matches(this)) {
 			// Return a new ParseState with leaf node built from the first token and the remainder being the rest of the list
-			return ParseState.build(LeafNode.build(input.get(0)), input.subList(1, input.size()));
+			return ParseState.build(LeafNode.build(input.get(0)), 
+					(input.size() == 1 ? new LinkedList<Token>() : input.subList(1, input.size())));
 		}
 		else {
 			return ParseState.FAILURE;

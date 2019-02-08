@@ -64,7 +64,7 @@ final class ParseState {
 	 * @return	the remainder list of tokens that was left over after parsing the first node
 	 */
 	final List<Token> getRemainder() {
-		return new LinkedList<>(remainder);
+		return remainder == null ? null : new LinkedList<>(remainder);
 	}
 	
 	/**
@@ -87,5 +87,58 @@ final class ParseState {
 		
 		return new ParseState(true, node, remainder);
 	}
+	
+	/**
+	 * Checks if the ParseState and a given object are equal
+	 * @param object	a given object to be compared with the ParseState
+	 */
+	@Override
+	public boolean equals(Object object) {
+		if (object != null && object instanceof ParseState && this.sameComponent((ParseState) object)) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Compares the components (success, node, and remainder) between the current ParseState and a given ParseState
+	 * @param state		the given ParseState to be compared with the current ParseState
+	 * @return			true if both ParseState have the same components (success, node, and remainder) and
+	 * 					false otherwise
+	 */
+	private boolean sameComponent(ParseState state) {
+		if ((isFailureLike(state)) || 
+				(this.getSuccess() == state.getSuccess()
+				&& this.getNode().equals(state.getNode())
+				&& this.getRemainder().equals(state.getRemainder()))) {
+			return true;
+		}
+		return false;
+	}
 
+	/**
+	 * Checks if the current ParseState is null
+	 * @return			true if the	ParseState's success condition is false and both the node and remainder are null,
+	 * 					and false otherwise
+	 */
+	public boolean isFailure() {
+		if (this.getSuccess() == false
+				&& this.getNode() == null
+				&& this.getRemainder() == null) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if both the current state and the state compared are failure
+	 * @param state		the state to be compared with the current state
+	 * @return			true if both states are failure and false otherwise
+	 */
+	private boolean isFailureLike(ParseState state) {
+		if (this.isFailure() && state.isFailure()) {
+			return true;
+		}
+		return false;
+	}
 }

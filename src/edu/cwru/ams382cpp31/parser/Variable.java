@@ -63,8 +63,19 @@ public final class Variable extends AbstractToken {
 	 * @return	the string representation of the variable
 	 */
 	@Override
-	public String toString(){
+	public String toString() {
 		return this.getRepresentation();
+	}
+	
+	/**
+	 * Checks if the variable is equal to an object if they have the same representation
+	 * @param object	the object to be compared with the variable
+	 */
+	@Override
+	public boolean equals(Object object) {
+		return object != null 
+				&& object instanceof Variable 
+				&& this.getRepresentation().equals(((Variable) object).getRepresentation());
 	}
 	
 }

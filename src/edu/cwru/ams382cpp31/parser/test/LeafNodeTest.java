@@ -102,4 +102,18 @@ public class LeafNodeTest {
 		assertEquals("'c' Variable Test", Arrays.asList(c), node.toList());
 	}
 
+	/**
+	 * Tests the method equals in LeafNode
+	 */
+	@Test
+	public void testEquals() {
+		// Test the case when equals returns true
+		LeafNode ln1 = LeafNode.build(Variable.build("x"));
+		LeafNode ln2 = LeafNode.build(Variable.build("x"));
+		assertEquals(ln1, ln2);
+		
+		// Test the case when equals returns false
+		LeafNode ln3 = LeafNode.build(Variable.build("y"));
+		assertFalse(ln1.equals(ln3));
+	}
 }

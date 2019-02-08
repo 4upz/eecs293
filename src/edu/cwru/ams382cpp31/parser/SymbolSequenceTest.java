@@ -28,26 +28,40 @@ public class SymbolSequenceTest {
 	public void testBuild() {
 		List<Symbol> testList;
 		
-		//Test null value for exception throw of first builder
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("Production list cannot be null!");
-		testList = null;
-		SymbolSequence.build(testList);
+		// Test null value for exception throw of first builder with an input list
+		testBuildUsingListNull();
 				
-		//Test null value for exception throw of alternative builder
-		thrown.expect(NullPointerException.class);
-		thrown.expectMessage("Production list cannot be null!");
-		SymbolSequence.build(null, null);
+		// Test null value for exception throw of builder with an input array
+		testBuildUsingArrayNull();
 		
-		//Tests a successfully built SymbolSequence with only one value in production
+		// Test a successfully built SymbolSequence with only one value in production
 		testList = Arrays.asList(TerminalSymbol.PLUS);
 		SymbolSequence testSequence = SymbolSequence.build(testList);
 		assertEquals("Testing One Symbol", Arrays.asList(TerminalSymbol.PLUS), testSequence.getProduction());
 		
-		//Tests multiple SymbolSequences along with NonTerminalSequences
+		// Test multiple SymbolSequences along with NonTerminalSequences
 		testSequence = SymbolSequence.build(NonTerminalSymbol.EXPRESSION, TerminalSymbol.PLUS, NonTerminalSymbol.EXPRESSION_TAIL);
 		testList = Arrays.asList(NonTerminalSymbol.EXPRESSION, TerminalSymbol.PLUS, NonTerminalSymbol.EXPRESSION_TAIL);
 		assertEquals("Testing multiple Symbols", testList, testSequence.getProduction());
+	}
+	
+	/*
+	 * Test null value for exception throw of first builder with an input list
+	 */
+	private void testBuildUsingListNull() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("Production list cannot be null!");
+		List<Symbol> testList = null;
+		SymbolSequence.build(testList);
+	}
+	
+	/*
+	 * Test null value for exception throw of builder with an input array
+	 */
+	private void testBuildUsingArrayNull() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("None of the symbol inputs should be null!");
+		SymbolSequence.build(TerminalSymbol.CLOSE, null);
 	}
 	
 	/**
@@ -79,7 +93,7 @@ public class SymbolSequenceTest {
 		List<Token> testList = Arrays.asList(a);
 		ParseState testParse = ParseState.build(InternalNode.build(Arrays.asList(LeafNode.build(a))), new ArrayList<Token>());
 		/* Test Success */
-		 assertEquals("Testing match success for one production value", testParse.getSuccess(), testSequence.match(testList).getSuccess());
+		assertEquals("Testing match success for one production value", testParse.getSuccess(), testSequence.match(testList).getSuccess());
 		/* Test Node */
 		assertEquals("Testing node returned from match for one production value", testParse.getNode(), testSequence.match(testList).getNode());
 		/* Test Remainder value */
@@ -91,7 +105,7 @@ public class SymbolSequenceTest {
 		List<Node> nodeList = Arrays.asList(LeafNode.build(a), LeafNode.build(plus), LeafNode.build(b));
 		testParse = ParseState.build(InternalNode.build(nodeList), Arrays.asList(Variable.build("c")));
 		/* Test Success */
-		 assertEquals("Testing match success for one production value", testParse.getSuccess(), testSequence.match(testList).getSuccess());
+		assertEquals("Testing match success for one production value", testParse.getSuccess(), testSequence.match(testList).getSuccess());
 		/* Test Node */
 		assertEquals("Testing node returned from match for one production value", testParse.getNode(), testSequence.match(testList).getNode());
 		/* Test Remainder value */
@@ -101,7 +115,7 @@ public class SymbolSequenceTest {
 		testSequence = SymbolSequence.build(TerminalSymbol.VARIABLE, TerminalSymbol.PLUS, TerminalSymbol.VARIABLE);
 		testList = Arrays.asList(plus, a, b, Variable.build("c")); //Switched Sequence Order
 		/* Test Failure*/
-		 assertEquals("Testing if FAILURE ParseState is returned for failed case", ParseState.FAILURE, testSequence.match(testList));
+		assertTrue("Testing if FAILURE ParseState is returned for failed case", testSequence.match(testList).isFailure());
 	}
 
 }

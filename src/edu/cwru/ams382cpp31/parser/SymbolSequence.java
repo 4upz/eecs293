@@ -55,7 +55,7 @@ final class SymbolSequence {
 	 * @return 	      an instance of SymbolSequence
 	 */
 	public static final SymbolSequence build(Symbol... symbols) {
-		Objects.requireNonNull(symbols, "You must provide at least one Symbol!");
+		Objects.requireNonNull(symbols, "None of the symbol inputs should be null!");
 		
 		return new SymbolSequence(Arrays.asList(symbols));
 	}
@@ -76,14 +76,15 @@ final class SymbolSequence {
 	 */
 	public final ParseState match(List<Token> input) {
 		Objects.requireNonNull(input, "Token List input cannot be null!");
+		
 		List<Token> remainder = new LinkedList<>(input);
 		List<Node> children = new ArrayList<Node>();
 		
-		for(Symbol symbol : this.getProduction()) {
+		for (Symbol symbol : this.getProduction()) {
 			ParseState parsedNode = symbol.parse(remainder);
 			
 			//Return failure if the parsing process fails and continue if successful
-			if(parsedNode.equals(ParseState.FAILURE)) {
+			if (parsedNode.isFailure()) {
 				return ParseState.FAILURE;
 			}
 			

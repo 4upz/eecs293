@@ -72,4 +72,18 @@ public class ParseStateTest {
 		
 	}
 	
+	/**
+	 * Tests the method equals in ParseState
+	 */
+	@Test
+	public void testEquals() {
+		// Test the case when equals returns true
+		ParseState ps1 = ParseState.build(LeafNode.build(a), Arrays.asList(a, add, b));
+		ParseState ps2 = ParseState.build(LeafNode.build(a), Arrays.asList(a, add, b));
+		assertEquals(ps1, ps2);
+		
+		// Test the case when equals returns false
+		ParseState ps3 = ParseState.build(LeafNode.build(a), Arrays.asList(a, add, a));
+		assertFalse(ps1.equals(ps3));
+	}
 }

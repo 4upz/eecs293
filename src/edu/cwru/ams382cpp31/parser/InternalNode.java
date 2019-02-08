@@ -119,13 +119,7 @@ public class InternalNode implements Node {
 			//Add the string output of each token to the new resulting string with brackets between each node
 			List<Node> children = this.getChildren();
 			for (Node node : children) {
-				sb.append("[");
-				//Append the node to the string based on what kind of node it is
-				if (node instanceof InternalNode)
-					((InternalNode) node).getChildren().forEach(child -> sb.append(child.toString() + ","));
-				else	// the node is a leaf node
-					sb.append(node.toString() + ",");
-				sb2.append("]");
+				addBrackets(node, sb, sb2);
 			}
 			sb.append(sb2.toString()); //Add the closing brackets
 			sb.deleteCharAt(sb.lastIndexOf(",")); //Removes the last comma from the list
@@ -134,6 +128,22 @@ public class InternalNode implements Node {
 		return this.getChildrenString(); 
 	}
 
+	/**
+	 * A helper method for toString() to add brackets to the string builders 
+	 * @param node		the current node being checked
+	 * @param sb		the StringBuilder to add open brackets and commas to
+	 * @param sb2		the StringBuilder to add close brackets to
+	 */
+	private final void addBrackets(Node node, StringBuilder sb, StringBuilder sb2) {
+		sb.append("[");
+		//Append the node to the string based on what kind of node it is
+		if (node instanceof InternalNode)
+			((InternalNode) node).getChildren().forEach(child -> sb.append(child.toString() + ","));
+		else	// the node is a leaf node
+			sb.append(node.toString() + ",");
+		sb2.append("]");
+	}
+	
 	@Override
 	public boolean equals(Object object) {
 		return object != null 

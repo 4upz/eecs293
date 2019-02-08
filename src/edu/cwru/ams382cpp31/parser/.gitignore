@@ -19,3 +19,5 @@
 /ParseStateTest.class
 /SymbolSequence.class
 /SymbolSequenceTest.class
+/NonTerminalSymbolTest.class
+/TerminalSymbolTest.class
