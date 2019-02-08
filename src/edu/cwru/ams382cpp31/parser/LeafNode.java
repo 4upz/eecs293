@@ -62,6 +62,11 @@ public final class LeafNode implements Node {
 		return newList;
 	}
 	
+	/**
+	 * Checks if the leaf node is equal to a given object
+	 * @param object	an object to be compared to the leaf node
+	 * @return			true if the object is a leaf node with the same token and false otherwise
+	 */
 	@Override
 	public boolean equals(Object object) {
 		return object != null && object instanceof LeafNode && ((LeafNode) object).getToken().equals(this.getToken());

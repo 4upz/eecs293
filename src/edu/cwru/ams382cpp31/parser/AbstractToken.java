@@ -26,6 +26,12 @@ public abstract class AbstractToken implements Token {
 		return this.getType() == type;
 	}
 
+	/**
+	 * Checks if the abstract token is equal to an object of any type
+	 * @param object	an object to be compared to the abstract token
+	 * @return			true if the object is an abstract token and matches the type of the current abstract token
+	 * 					, and false otherwise
+	 */
 	@Override
 	public boolean equals(Object object) {
 		return object != null && object instanceof AbstractToken && ((AbstractToken) object).matches(this.getType());

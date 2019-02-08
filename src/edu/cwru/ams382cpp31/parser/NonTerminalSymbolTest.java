@@ -1,3 +1,6 @@
+/**
+ * Contained in package for EECS 293 project
+ */
 package edu.cwru.ams382cpp31.parser;
 
 import static org.junit.Assert.*;
@@ -5,11 +8,18 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+/**
+ * A class that uses JUnit4 to tests the methods in the NonTerminalSymbol enum
+ * @author Kyle Pham
+ * @author Arik Stewart
+ *
+ */
 public class NonTerminalSymbolTest {
 
 	// Tokens to be used in the test
@@ -73,13 +83,12 @@ public class NonTerminalSymbolTest {
 	 */
 	@Test
 	public void testParseSuccess() {
-		// Test for EXPRESSION
-		ParseState stateExpression = ParseState.build(LeafNode.build(Variable.build("x")), Collections.emptyList());
-		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION, stateExpression, Variable.build("x"));
-		
-		// Test for EXPRESSION_TAIL
-		ParseState stateExpressionTail = ParseState.build(LeafNode.build(Variable.build("z")), Collections.emptyList());
-		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION_TAIL, stateExpressionTail, Variable.build("z"));
+		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION, Variable.build("x"));
+		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION_TAIL, Connector.build(TerminalSymbol.MINUS),Variable.build("z"));
+		testParseSuccessSpecific(NonTerminalSymbol.TERM, Connector.build(TerminalSymbol.OPEN), Variable.build("x"), Connector.build(TerminalSymbol.CLOSE));
+		testParseSuccessSpecific(NonTerminalSymbol.TERM_TAIL, Variable.build("z"));
+		testParseSuccessSpecific(NonTerminalSymbol.UNARY, Connector.build(TerminalSymbol.MINUS), Variable.build("x"));
+		testParseSuccessSpecific(NonTerminalSymbol.FACTOR, Connector.build(TerminalSymbol.OPEN), Variable.build("y"), Connector.build(TerminalSymbol.CLOSE));
 	}
 	
 	/**
@@ -87,9 +96,35 @@ public class NonTerminalSymbolTest {
 	 * @param symbol	the symbol the parse method is used on
 	 * @param tokens	the array of tokens to be used as the parse input
 	 */
-	private void testParseSuccessSpecific(NonTerminalSymbol symbol, ParseState stateCompared, Token... tokens) {
+	private void testParseSuccessSpecific(NonTerminalSymbol symbol, Token... tokens) {
 		List<Token> tokenList = Arrays.asList(tokens);
-		System.out.println(symbol.parse(tokenList).getNode().equals(LeafNode.build(Variable.build("x"))));
-		assertEquals(symbol.parse(tokenList), stateCompared);	
+		assertTrue(symbol.parse(tokenList).getSuccess());	
+	}
+	
+	/**
+	 * Test the parseInput method in NonTerminalSymbol with a null input token list
+	 */
+	@Test
+	public void testParseInputNull() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("The input token list must not be null!");
+		NonTerminalSymbol.parseInput(null);
+	}
+	
+	/**
+	 * Tests the parseInput method in NonTerminalSymbol where it fails and returns an empty Optional
+	 */
+	@Test
+	public void testParseInputFail() {
+		assertFalse(NonTerminalSymbol.parseInput(Arrays.asList(Connector.build(TerminalSymbol.OPEN))).isPresent());
+	}
+	
+	/**
+	 * Tests the parseInput method in NonTerminalSymbol where it succeeds and returns a nonempty Optional
+	 */
+	@Test
+	public void testParseInputSuccess() {
+		Optional<Node> node = NonTerminalSymbol.parseInput(Arrays.asList(Variable.build("x")));
+		assertEquals(node.get().toList(), InternalNode.build(Arrays.asList(LeafNode.build(Variable.build("x")))).toList());
 	}
 }

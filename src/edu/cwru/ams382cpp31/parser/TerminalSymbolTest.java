@@ -1,3 +1,6 @@
+/**
+ * Contained in package for EECS 293 project
+ */
 package edu.cwru.ams382cpp31.parser;
 
 import static org.junit.Assert.*;

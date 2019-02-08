@@ -144,10 +144,16 @@ public class InternalNode implements Node {
 		sb2.append("]");
 	}
 	
+	/**
+	 * Checks if the internal node is equal to a given object
+	 * @param object	an object to be compared to the internal node
+	 * @return			true if the object is an internal node with the same list of children,
+	 * 					and false otherwise
+	 */
 	@Override
 	public boolean equals(Object object) {
 		return object != null 
 				&& object instanceof InternalNode 
-				&& this.toString().equals(((InternalNode) object).toString());
+				&& this.getChildren().equals(((InternalNode) object).getChildren());
 	}
 }

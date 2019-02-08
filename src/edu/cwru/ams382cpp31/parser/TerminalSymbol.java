@@ -56,8 +56,9 @@ public enum TerminalSymbol implements Symbol {
 		
 		if (!input.isEmpty() && input.get(0).matches(this)) {
 			// Return a new ParseState with leaf node built from the first token and the remainder being the rest of the list
-			return ParseState.build(LeafNode.build(input.get(0)), 
-					(input.size() == 1 ? new LinkedList<Token>() : input.subList(1, input.size())));
+			List<Token> copyList = new LinkedList<>(input);
+			copyList.remove(0);
+			return ParseState.build(LeafNode.build(input.get(0)), copyList);
 		}
 		else {
 			return ParseState.FAILURE;

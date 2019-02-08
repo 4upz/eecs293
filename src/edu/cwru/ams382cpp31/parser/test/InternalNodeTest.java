@@ -127,5 +127,26 @@ public class InternalNodeTest {
 		assertEquals("Test Example List Tree Setup of String copy", "[a,[+,[b,[/,c]]]]", internalNodeThree.toString());
 
 	}
+	
+	/**
+	 * Tests the method equals in InternalNode
+	 */
+	@Test
+	public final void testEquals() {
+		// Test the case when the two internal nodes are equal
+		leafNode = LeafNode.build(a);
+		internalNodeOne = InternalNode.build(Arrays.asList(leafNode));
+		internalNodeTwo = InternalNode.build(Arrays.asList(leafNode));
+		assertEquals(internalNodeOne, internalNodeTwo);
+		
+		// Test compare to null
+		assertNotEquals(internalNodeOne, null);
+		
+		// Test compare to a non-InternalNode object
+		assertNotEquals(internalNodeOne, "aaa");
+		
+		// Test compare to another internal node with different children
+		assertNotEquals(internalNodeOne, InternalNode.build(Arrays.asList(LeafNode.build(b))));
+	}
 
 }

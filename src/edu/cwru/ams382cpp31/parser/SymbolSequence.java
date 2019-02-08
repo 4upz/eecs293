@@ -95,4 +95,17 @@ final class SymbolSequence {
 		return ParseState.build(InternalNode.build(children), remainder);
 	}
 	
+	/**
+	 * Checks if the SymbolSequence is equal to a given object
+	 * @param object	an object to be compared to the SymbolSequence
+	 * @return			true if the object is a SymbolSequence with the same list of productions,
+	 * 					and false otherwise
+	 */
+	@Override
+	public boolean equals(Object object) {
+		return object != null 
+				&& object instanceof SymbolSequence 
+				&& this.getProduction().equals(((SymbolSequence) object).getProduction());
+	}
+	
 }

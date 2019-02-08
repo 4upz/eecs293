@@ -81,6 +81,14 @@ public enum NonTerminalSymbol implements Symbol {
 	}
 	
 	/**
+	 * Gets the possible productions of the non-terminal symbol
+	 * @return	the list of possible productions of the non-terminal symbol
+	 */
+	public final List<SymbolSequence> getProductions() {
+		return map.get(this);
+	}
+	
+	/**
 	 * The non-terminal symbol parses the input token list by going through its productions and check if any of them
 	 * matches the token list
 	 * @param input		the input token list to be parsed by the non-terminal symbol

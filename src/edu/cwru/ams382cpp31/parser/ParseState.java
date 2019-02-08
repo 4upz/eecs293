@@ -91,6 +91,7 @@ final class ParseState {
 	/**
 	 * Checks if the ParseState and a given object are equal
 	 * @param object	a given object to be compared with the ParseState
+	 * @return			true if the object is a ParseState with the same components as the current ParseState
 	 */
 	@Override
 	public boolean equals(Object object) {

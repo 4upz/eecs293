@@ -19,9 +19,9 @@ public interface Node {
 	List<Token> toList();
 	
 	/**
-	 * 
-	 * @param object
-	 * @return
+	 * Checks if the node is equal to a given object
+	 * @param object	an object to be compared to the node
+	 * @return			true if the node is equal to the object and false otherwise
 	 */
 	boolean equals(Object object);
 }

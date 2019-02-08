@@ -1,3 +1,6 @@
+/**
+ * Contained in package for EECS 293 project
+ */
 package edu.cwru.ams382cpp31.parser;
 
 import static org.junit.Assert.*;
@@ -8,6 +11,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+/**
+ * A class that uses JUnit4 to test the methods in SymbolSequence
+ * @author Kyle Pham
+ * @author Arik Stewart
+ */
 public class SymbolSequenceTest {
 
 	//Tokens to be used in the test

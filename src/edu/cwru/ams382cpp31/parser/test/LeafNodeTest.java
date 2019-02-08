@@ -112,8 +112,13 @@ public class LeafNodeTest {
 		LeafNode ln2 = LeafNode.build(Variable.build("x"));
 		assertEquals(ln1, ln2);
 		
-		// Test the case when equals returns false
-		LeafNode ln3 = LeafNode.build(Variable.build("y"));
-		assertFalse(ln1.equals(ln3));
+		// Test the case comparing with null
+		assertNotEquals(ln1, null);
+		
+		// Test the case comparing with an object with different type
+		assertNotEquals(ln1, "bcbc");
+		
+		// Test the case when the leaf nodes were built from different tokens
+		assertNotEquals(ln1, LeafNode.build(Variable.build("y")));
 	}
 }

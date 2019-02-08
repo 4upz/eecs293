@@ -48,6 +48,9 @@ public class VariableTest {
 		Variable number3 = Variable.build(representation3);
 		assertSame(number3, number2);
 		
+		// Test the equals() method
+		assertEquals(number3, number2);
+		
 		// Test the getType() method
 		assertEquals(number2.getType(), TerminalSymbol.VARIABLE);
 		

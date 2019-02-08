@@ -82,8 +82,13 @@ public class ParseStateTest {
 		ParseState ps2 = ParseState.build(LeafNode.build(a), Arrays.asList(a, add, b));
 		assertEquals(ps1, ps2);
 		
-		// Test the case when equals returns false
-		ParseState ps3 = ParseState.build(LeafNode.build(a), Arrays.asList(a, add, a));
-		assertFalse(ps1.equals(ps3));
+		// Test the case comparing with null
+		assertNotEquals(ps1, null);
+		
+		// Test the case comparing with a different object type
+		assertNotEquals(ps1, "a");
+		
+		// Test the case when equals returns false as the ParseStates were built from different inputs
+		assertNotEquals(ps1, ParseState.build(LeafNode.build(a), Arrays.asList(a, add, a)));
 	}
 }

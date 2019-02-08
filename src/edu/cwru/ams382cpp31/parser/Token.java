@@ -23,6 +23,11 @@ public interface Token {
 	 */
 	boolean matches(TerminalSymbol type);
 	
+	/**
+	 * Checks if the token is equal to an object of any type
+	 * @param object	an object to be compared to the token
+	 * @return			true if the token is equal to the object by some rule and false otherwise
+	 */
 	boolean equals(Object object);
 	
 }
