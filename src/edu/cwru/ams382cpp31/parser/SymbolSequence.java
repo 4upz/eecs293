@@ -33,7 +33,7 @@ final class SymbolSequence {
 	 * Getter for production
 	 * @return The list of Symbols stored in production
 	 */
-	private final List<Symbol> getProduction(){
+	public final List<Symbol> getProduction(){
 		return this.production;
 	}
 	
