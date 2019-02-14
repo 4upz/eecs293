@@ -57,9 +57,7 @@ public final class LeafNode implements Node {
 	 * @return a new list containing the single value stored in token
 	 */
 	public final List<Token> toList(){
-		List<Token> newList = new ArrayList<Token>();
-		newList.add(this.getToken());
-		return newList;
+		return Arrays.asList(this.getToken());
 	}
 	
 	/**
