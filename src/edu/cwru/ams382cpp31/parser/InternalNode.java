@@ -4,7 +4,6 @@
 package edu.cwru.ams382cpp31.parser;
 
 import java.util.*;
-import java.util.Objects;
 
 /**
  * @author Arik Stewart
@@ -13,6 +12,60 @@ import java.util.Objects;
  */
 public class InternalNode implements Node {
 
+	/** 
+	 * @author Arik Stewart
+	 * @author Kyle Pham
+	 * Nested class used to build an InternalNode
+	 */
+	public static class Builder {
+		
+		/**
+		 * List of children within the InternalNode, initialized as empty list
+		 */
+		private List<Node> children = Collections.emptyList();
+		
+		/**
+		 * Adds a new node to the list of children being built
+		 * @param node A new node to add to the end of list
+		 * @return true after node is added
+		 */
+		public boolean addChild(Node node) {
+			return this.children.add(node);
+		}
+		
+		/**
+		 * Simplifies the InternalNode by clearing unneeded children
+		 * @return new Builder instance containing simplified InternalNode
+		 */
+		public Builder simplify() {
+			for (Node child : children) {
+				//If the child is not fruitful, remove from the children list
+				if (!child.isFruitful()) {
+					children.remove(child);
+				}
+				splitSingleInternalNode();
+			}
+			return this;
+		}
+		
+		/**
+		 * Builds a new InternalNode instance with the simplified children list
+		 * @return the newly built instance of InternalNode
+		 */
+		public InternalNode build() {
+			return InternalNode.build(simplify().children);
+		}
+		
+		/**
+		 * Checks to see if the children list contains a single InternalNode and splits its children if it does
+		 */
+		private void splitSingleInternalNode() {
+			if(children.size() == 1 && children.get(0) instanceof InternalNode) {
+				children = children.get(0).getChildren();
+			}
+		}
+	}
+	
 	/**
 	 * A list represents the node children
 	 */
@@ -138,5 +191,14 @@ public class InternalNode implements Node {
 		return object != null 
 				&& object instanceof InternalNode 
 				&& this.getChildren().equals(((InternalNode) object).getChildren());
+	}
+
+	/**
+	 * Inherited from Node and determines whether the InternalNode has children
+	 * @return boolean value based on if stored children list is empty
+	 */
+	@Override
+	public boolean isFruitful() {
+		return !this.getChildren().isEmpty();
 	}
 }

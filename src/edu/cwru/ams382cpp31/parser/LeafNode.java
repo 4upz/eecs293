@@ -71,5 +71,23 @@ public final class LeafNode implements Node {
 	public boolean equals(Object object) {
 		return object != null && object instanceof LeafNode && ((LeafNode) object).getToken().equals(this.getToken());
 	}
+
+	/**
+	 * Gets the children of the LeafNode
+	 * @return null since a LeafNode does not contain node children
+	 */
+	@Override
+	public List<Node> getChildren() {
+		return null;
+	}
+
+	/**
+	 * Determines whether the LeafNode holds a value
+	 * @return true since a LeafNode always has a stored Token
+	 */
+	@Override
+	public boolean isFruitful() {
+		return true;
+	}
 	
 }

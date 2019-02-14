@@ -20,7 +20,7 @@ final class SymbolSequence {
 	/**
 	 * Represents a SymbolSequence state with an empty production
 	 */
-	static final SymbolSequence EPSILON = new SymbolSequence(new ArrayList<Symbol>());
+	static final SymbolSequence EPSILON = new SymbolSequence(Collections.emptyList());
 	
 	/*
 	 * Constructor that initializes class and sets value for production
@@ -78,7 +78,7 @@ final class SymbolSequence {
 		Objects.requireNonNull(input, "Token List input cannot be null!");
 		
 		List<Token> remainder = new LinkedList<>(input);
-		List<Node> children = new ArrayList<Node>();
+		InternalNode.Builder builder = new InternalNode.Builder();	//InternalNode builder for parsed nodes
 		
 		for (Symbol symbol : this.getProduction()) {
 			ParseState parsedNode = symbol.parse(remainder);
@@ -87,12 +87,11 @@ final class SymbolSequence {
 			if (!parsedNode.getSuccess()) {
 				return ParseState.FAILURE;
 			}
-			
-			children.add(parsedNode.getNode());
+			builder.addChild(parsedNode.getNode());
 			remainder = parsedNode.getRemainder();
 		}
-		
-		return ParseState.build(InternalNode.build(children), remainder);
+		//Return ParseState with simplified children list of parsed nodes
+		return ParseState.build(builder.build() , remainder);
 	}
 	
 	/**
