@@ -151,5 +151,23 @@ public class InternalNodeTest {
 		// Test compare to another internal node with different children
 		assertNotEquals(internalNodeOne, InternalNode.build(Arrays.asList(LeafNode.build(b))));
 	}
+	
+	/**
+	 * Tests the getChildren and isFruitful method of InternalNode
+	 */
+	@Test
+	public final void testChildren() {
+		//Tests with empty child
+		InternalNode.Builder builder = new InternalNode.Builder();
+		InternalNode internalNodeOne = builder.build();
+		assertEquals(Arrays.asList(), internalNodeOne.toList());
+		assertFalse(internalNodeOne.isFruitful());
+		
+//		//Test with one child that is also internalNode to test the simplify method of InternalNode.Builder
+//		builder.addChild(InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b))));
+//		internalNodeOne = builder.build();
+//		assertEquals(Arrays.asList(a, add, b), internalNodeOne.toList());
+		
+	}
 
 }
