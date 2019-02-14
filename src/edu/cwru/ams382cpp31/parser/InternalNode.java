@@ -121,6 +121,7 @@ public class InternalNode implements Node {
 			for (Node node : children) {
 				addBrackets(node, sb, sb2);
 			}
+			// add brackets to the whole group of children instead of individual child
 			sb.append(sb2.toString()); //Add the closing brackets
 			sb.deleteCharAt(sb.lastIndexOf(",")); //Removes the last comma from the list
 			this.setChildrenString(sb.toString());
