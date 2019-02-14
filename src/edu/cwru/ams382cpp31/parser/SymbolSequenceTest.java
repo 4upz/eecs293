@@ -123,7 +123,7 @@ public class SymbolSequenceTest {
 		testSequence = SymbolSequence.build(TerminalSymbol.VARIABLE, TerminalSymbol.PLUS, TerminalSymbol.VARIABLE);
 		testList = Arrays.asList(plus, a, b, Variable.build("c")); //Switched Sequence Order
 		/* Test Failure*/
-		assertTrue("Testing if FAILURE ParseState is returned for failed case", testSequence.match(testList).isFailure());
+		assertFalse("Testing if FAILURE ParseState is returned for failed case", testSequence.match(testList).getSuccess());
 	}
 
 }

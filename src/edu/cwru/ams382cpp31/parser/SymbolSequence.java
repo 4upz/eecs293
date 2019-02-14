@@ -84,7 +84,7 @@ final class SymbolSequence {
 			ParseState parsedNode = symbol.parse(remainder);
 			
 			//Return failure if the parsing process fails and continue if successful
-			if (parsedNode.isFailure()) {
+			if (!parsedNode.getSuccess()) {
 				return ParseState.FAILURE;
 			}
 			

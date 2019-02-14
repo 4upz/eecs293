@@ -108,8 +108,7 @@ final class ParseState {
 	 * 					false otherwise
 	 */
 	private boolean sameComponent(ParseState state) {
-		if ((isFailureLike(state)) || 
-				(this.getSuccess() == state.getSuccess()
+		if ((this.getSuccess() == state.getSuccess()
 				&& this.getNode().equals(state.getNode())
 				&& this.getRemainder().equals(state.getRemainder()))) {
 			return true;
@@ -117,29 +116,4 @@ final class ParseState {
 		return false;
 	}
 
-	/**
-	 * Checks if the current ParseState is null
-	 * @return			true if the	ParseState's success condition is false and both the node and remainder are null,
-	 * 					and false otherwise
-	 */
-	public boolean isFailure() {
-		if (this.getSuccess() == false
-				&& this.getNode() == null
-				&& this.getRemainder() == null) {
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if both the current state and the state compared are failure
-	 * @param state		the state to be compared with the current state
-	 * @return			true if both states are failure and false otherwise
-	 */
-	private boolean isFailureLike(ParseState state) {
-		if (this.isFailure() && state.isFailure()) {
-			return true;
-		}
-		return false;
-	}
 }

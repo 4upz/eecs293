@@ -75,7 +75,7 @@ public class NonTerminalSymbolTest {
 	 */
 	private void testParseFailSpecific(NonTerminalSymbol symbol, Token... tokens) {
 		List<Token> tokenList = Arrays.asList(tokens);
-		assertTrue(symbol.parse(tokenList).isFailure());	
+		assertFalse(symbol.parse(tokenList).getSuccess());	
 	}
 	
 	/**

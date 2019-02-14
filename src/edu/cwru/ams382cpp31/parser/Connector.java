@@ -28,14 +28,14 @@ public final class Connector extends AbstractToken {
 	/**
 	 * The list of valid types for a connector, which are CLOSE, DIVIDE, MINUS, OPEN, PLUS, TIMES.
 	 */
-	private static final List<TerminalSymbol> validTypes = Arrays.asList(new TerminalSymbol[] {
+	private static final List<TerminalSymbol> validTypes = Arrays.asList(
 		TerminalSymbol.CLOSE,
 		TerminalSymbol.DIVIDE,
 		TerminalSymbol.MINUS,
 		TerminalSymbol.OPEN,
 		TerminalSymbol.PLUS,
 		TerminalSymbol.TIMES
-	});
+	);
 	
 	/**
 	 * Constructs a connector, given the type of the terminal symbol
