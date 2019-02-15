@@ -4,8 +4,6 @@
 package edu.cwru.ams382cpp31.parser.test;
 
 import edu.cwru.ams382cpp31.parser.*;
-import edu.cwru.ams382cpp31.parser.InternalNode.Builder;
-
 import static org.junit.Assert.*;
 
 import java.util.Arrays;

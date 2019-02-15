@@ -121,4 +121,15 @@ public class LeafNodeTest {
 		// Test the case when the leaf nodes were built from different tokens
 		assertNotEquals(ln1, LeafNode.build(Variable.build("y")));
 	}
+	
+	@Test
+	/**
+	 * Tests the isFruitful and getChildren methods in LeafNode
+	 */
+	public final void testChildren() {
+		//Test with given token
+		LeafNode ln = LeafNode.build(a);
+		assertEquals(null, ln.getChildren());
+		assertTrue(ln.isFruitful());
+	}
 }
