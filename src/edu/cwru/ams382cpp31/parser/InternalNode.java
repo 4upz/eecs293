@@ -139,8 +139,7 @@ public class InternalNode implements Node {
 	 * @return the newly instantiated internalNode made from the given list
 	 */
 	public static InternalNode build(List<Node> children) {
-		Objects.requireNonNull(children, "Children list cannot be null");
-		return new InternalNode(children);
+		return new InternalNode(Objects.requireNonNull(children, "Children list cannot be null"));
 	}
 	
 	/**
