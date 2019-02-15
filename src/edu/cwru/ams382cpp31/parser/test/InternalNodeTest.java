@@ -4,6 +4,7 @@
 package edu.cwru.ams382cpp31.parser.test;
 
 import edu.cwru.ams382cpp31.parser.*;
+import edu.cwru.ams382cpp31.parser.InternalNode.Builder;
 
 import static org.junit.Assert.*;
 
@@ -167,6 +168,19 @@ public class InternalNodeTest {
 		builder.addChild(InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b))));
 		internalNodeOne = builder.build();
 		assertEquals(Arrays.asList(a, add, b), internalNodeOne.toList());
+		assertTrue(internalNodeOne.isFruitful());
+		assertEquals(new LinkedList<Node>(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b))), internalNodeOne.getChildren());
+		
+		//Test with multiple children that includes one InternalNode and one LeafNode
+		builder = new InternalNode.Builder();
+		builder.addChild(internalNodeOne);
+		builder.addChild(LeafNode.build(divide));
+		builder.addChild(LeafNode.build(c));
+		internalNodeOne = builder.build();
+		assertEquals(Arrays.asList(a, add, b, divide, c), internalNodeOne.toList());
+		assertTrue(internalNodeOne.isFruitful());
+		assertEquals("[[a,+,b], /, c]",
+				internalNodeOne.getChildren().toString());
 		
 	}
 
