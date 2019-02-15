@@ -5,10 +5,13 @@ package edu.cwru.ams382cpp31.parser;
 
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -45,8 +48,8 @@ public enum NonTerminalSymbol implements Symbol {
 		 * @param sequence the SymbolSequence that all of the given TerminalSymbols should map to
 		 * @param symbols the list of symbols that need to be mapped
 		 */
-		private void mapMultipleKeys(SymbolSequence sequence, TerminalSymbol... symbols) {
-			Arrays.asList(symbols).forEach(symbol -> terminalMap.put(symbol, sequence));
+		private void mapMultipleKeys(SymbolSequence sequence, List<TerminalSymbol> symbols) {
+			symbols.forEach(symbol -> terminalMap.put(symbol, sequence));
 		}
 	}
 	
@@ -58,74 +61,82 @@ public enum NonTerminalSymbol implements Symbol {
 			new EnumMap<>(NonTerminalSymbol.class);
 	
 	/**
-	 * Maps the productions with the corresponding non-terminal symbols in the map 
+	 * Maps the productions with the corresponding TerminalMap in the map 
 	 */
 	static {
 		//TerminalMap for EXPRESSION
-		NonTerminalSymbol.TerminalMap expressionMap = EXPRESSION.new TerminalMap();
-		expressionMap.mapMultipleKeys(
-				SymbolSequence.build(TERM, EXPRESSION_TAIL), 
-				TerminalSymbol.values()
+		assignMap(
+				EXPRESSION, 
+				Arrays.asList(SymbolSequence.build(TERM, EXPRESSION_TAIL)),
+				Arrays.asList(Arrays.asList(TerminalSymbol.values()))
 		);
-		productions.put(EXPRESSION, expressionMap.getTerminalMap());
 		
 		//TerminalMap for EXPRESSION_TAIL
-		NonTerminalSymbol.TerminalMap expressionTailMap = EXPRESSION_TAIL.new TerminalMap();
-		expressionTailMap.mapMultipleKeys(
-				SymbolSequence.build(TerminalSymbol.PLUS, TERM, EXPRESSION_TAIL), 
-				TerminalSymbol.PLUS
+		assignMap(
+				EXPRESSION_TAIL,
+				Arrays.asList(SymbolSequence.build(TerminalSymbol.PLUS, TERM, EXPRESSION_TAIL),
+							SymbolSequence.build(TerminalSymbol.MINUS, TERM, EXPRESSION_TAIL)),
+				Arrays.asList(Arrays.asList(TerminalSymbol.PLUS),
+							Arrays.asList(TerminalSymbol.MINUS))
 		);
-		expressionTailMap.mapMultipleKeys(
-				SymbolSequence.build(TerminalSymbol.MINUS, TERM, EXPRESSION_TAIL), 
-				TerminalSymbol.MINUS
-		);
-		productions.put(EXPRESSION_TAIL, expressionTailMap.getTerminalMap());
 		
 		//TerminalMap for TERM
-		NonTerminalSymbol.TerminalMap termMap = TERM.new TerminalMap();
-		termMap.mapMultipleKeys(
-				SymbolSequence.build(UNARY, TERM_TAIL), 
-				TerminalSymbol.values()
+		assignMap(
+				TERM,
+				Arrays.asList(SymbolSequence.build(UNARY, TERM_TAIL)),
+				Arrays.asList(Arrays.asList(TerminalSymbol.values()))
 		);
-		productions.put(TERM, termMap.getTerminalMap());
 		
 		//TerminalMap for TERM_TAIL
-		NonTerminalSymbol.TerminalMap termTailMap = TERM_TAIL.new TerminalMap();
-		termTailMap.mapMultipleKeys(
-				SymbolSequence.build(TerminalSymbol.TIMES, UNARY, TERM_TAIL), 
-				TerminalSymbol.TIMES
+		assignMap(
+				TERM_TAIL,
+				Arrays.asList(SymbolSequence.build(TerminalSymbol.TIMES, UNARY, TERM_TAIL),
+							SymbolSequence.build(TerminalSymbol.DIVIDE, UNARY, TERM_TAIL)),
+				Arrays.asList(Arrays.asList(TerminalSymbol.TIMES),
+							Arrays.asList(TerminalSymbol.DIVIDE))
 		);
-		termTailMap.mapMultipleKeys(
-				SymbolSequence.build(TerminalSymbol.DIVIDE, UNARY, TERM_TAIL), 
-				TerminalSymbol.DIVIDE
-		);
-		productions.put(TERM_TAIL, termTailMap.getTerminalMap());
 		
-		//TerminalMap for UNARY
-		NonTerminalSymbol.TerminalMap unaryMap = UNARY.new TerminalMap();
-		unaryMap.mapMultipleKeys(
-				SymbolSequence.build(TerminalSymbol.MINUS, FACTOR), 
-				TerminalSymbol.MINUS
+		//TerminalMap for TAIL
+		assignMap(
+				UNARY,
+				Arrays.asList(SymbolSequence.build(TerminalSymbol.MINUS, FACTOR),
+							SymbolSequence.build(FACTOR)),
+				Arrays.asList(Arrays.asList(TerminalSymbol.MINUS),
+							// Any TerminalSymbol other than MINUS
+							Arrays.stream(TerminalSymbol.values()).filter(
+									value -> !value.equals(TerminalSymbol.MINUS)).collect(
+											Collectors.toList()))
 		);
-		unaryMap.mapMultipleKeys(
-				SymbolSequence.build(FACTOR),
-				Arrays.stream(TerminalSymbol.values()).filter(value -> !value.equals(TerminalSymbol.MINUS)).toArray(TerminalSymbol[]::new)
-		);
-		productions.put(UNARY, unaryMap.getTerminalMap());
 		
 		//TerminalMap for FACTOR
-		NonTerminalSymbol.TerminalMap factorMap = FACTOR.new TerminalMap();
-		factorMap.mapMultipleKeys(
-				SymbolSequence.build(TerminalSymbol.OPEN, EXPRESSION, TerminalSymbol.CLOSE), 
-				TerminalSymbol.OPEN
-		);
-		factorMap.mapMultipleKeys(
-				SymbolSequence.build(TerminalSymbol.VARIABLE),
-				Arrays.stream(TerminalSymbol.values()).filter(value -> !value.equals(TerminalSymbol.OPEN)).toArray(TerminalSymbol[]::new)
-		);
-		productions.put(UNARY, unaryMap.getTerminalMap());
-		
+		assignMap(
+				FACTOR,
+				Arrays.asList(SymbolSequence.build(TerminalSymbol.OPEN, EXPRESSION, TerminalSymbol.CLOSE),
+							SymbolSequence.build(TerminalSymbol.VARIABLE)),
+				Arrays.asList(Arrays.asList(TerminalSymbol.OPEN),
+							// Any TerminalSymbol other than OPEN
+							Arrays.stream(TerminalSymbol.values()).filter(
+								value -> !value.equals(TerminalSymbol.OPEN)).collect(
+										Collectors.toList()))
+		);	
 	}
+	
+	/**
+	 * Static method to assigns the appropriate Map to a given NonTerminalSymbol type
+	 * @param type					the type of NonTerminalSymbol to map
+	 * @param listSequences			the list of possible productions
+	 * @param listTerminalSymbols	the list of lists of TerminalSymbols for each production
+	 */
+	private static void assignMap(NonTerminalSymbol type, List<SymbolSequence> listSequences, List<List<TerminalSymbol>> listTerminalSymbols) {
+		NonTerminalSymbol.TerminalMap typeMap = type.new TerminalMap();
+		Iterator<SymbolSequence> itSequence = listSequences.iterator();
+		Iterator<List<TerminalSymbol>> itTerminalSymbols = listTerminalSymbols.iterator();
+		while (itSequence.hasNext() && itTerminalSymbols.hasNext()) {
+			typeMap.mapMultipleKeys(itSequence.next(), itTerminalSymbols.next());
+		}
+		productions.put(type, typeMap.getTerminalMap());
+	}
+	
 	
 	/**
 	 * The non-terminal symbol parses the input token list by going through its productions and check if any of them
@@ -137,13 +148,12 @@ public enum NonTerminalSymbol implements Symbol {
 	@Override
 	public ParseState parse(List<Token> input) {
 		Objects.requireNonNull(input, "The input token list must not be null!");
+		
 		SymbolSequence availableSequence;
 		if(input.isEmpty())
 			availableSequence = SymbolSequence.EPSILON;
 		else {
-			System.out.println(productions.get(this));
 			availableSequence =  productions.get(this).getOrDefault(input.get(0).getType(), SymbolSequence.EPSILON);
-		
 		}
 		ParseState possibleParseState = availableSequence.match(input);
 		if (possibleParseState.getSuccess()) {
