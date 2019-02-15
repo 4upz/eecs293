@@ -102,8 +102,7 @@ final class SymbolSequence {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		return object != null 
-				&& object instanceof SymbolSequence 
+		return object instanceof SymbolSequence 
 				&& this.getProduction().equals(((SymbolSequence) object).getProduction());
 	}
 	

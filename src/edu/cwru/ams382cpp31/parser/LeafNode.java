@@ -38,9 +38,8 @@ public final class LeafNode implements Node {
 	 * @param token the Token value that will be stored in the new LeafNode
 	 * @return the newly constructed LeafNode that contains the given Token value
 	 */
-	public static final LeafNode build(Token token) {
-		Objects.requireNonNull(token, "Token type cannot be null"); //Put into one line
-		return new LeafNode(token);
+	public static final LeafNode build(Token token) {		
+		return new LeafNode(Objects.requireNonNull(token, "Token type cannot be null"));
 	}
 	
 	/**
@@ -67,7 +66,7 @@ public final class LeafNode implements Node {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		return object != null && object instanceof LeafNode && ((LeafNode) object).getToken().equals(this.getToken());
+		return object instanceof LeafNode && ((LeafNode) object).getToken().equals(this.getToken());
 	}
 
 	/**

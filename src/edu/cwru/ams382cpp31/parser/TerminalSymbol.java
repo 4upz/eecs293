@@ -39,7 +39,7 @@ public enum TerminalSymbol implements Symbol {
 	 * Gets the TerminalSymbol's string representation
 	 * @return	the string representation of the TerminalSymbol
 	 */
-	public String getRepresentation() {
+	String getRepresentation() {
 		return this.representation;
 	}
 

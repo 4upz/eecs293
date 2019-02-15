@@ -22,7 +22,7 @@ public class InternalNode implements Node {
 		/**
 		 * List of children within the InternalNode, initialized as empty list
 		 */
-		private List<Node> children = Collections.emptyList();
+		private List<Node> children = new LinkedList<>();
 		
 		/**
 		 * Adds a new node to the list of children being built

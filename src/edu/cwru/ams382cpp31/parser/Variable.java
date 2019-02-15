@@ -73,8 +73,7 @@ public final class Variable extends AbstractToken {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		return object != null 
-				&& object instanceof Variable 
+		return object instanceof Variable 
 				&& this.getRepresentation().equals(((Variable) object).getRepresentation());
 	}
 	

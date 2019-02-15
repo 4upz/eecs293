@@ -95,7 +95,7 @@ final class ParseState {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		if (object != null && object instanceof ParseState && this.sameComponent((ParseState) object)) {
+		if (object instanceof ParseState && this.sameComponent((ParseState) object)) {
 			return true;
 		}
 		return false;
