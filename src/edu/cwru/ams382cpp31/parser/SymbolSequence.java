@@ -78,7 +78,7 @@ final class SymbolSequence {
 		Objects.requireNonNull(input, "Token List input cannot be null!");
 		
 		List<Token> remainder = new LinkedList<>(input);
-		InternalNode.Builder builder = new InternalNode.Builder();	//InternalNode builder for parsed nodes
+		InternalNode.Builder nodeBuilder = new InternalNode.Builder();	//InternalNode builder for parsed nodes
 		
 		for (Symbol symbol : this.getProduction()) {
 			ParseState parsedNode = symbol.parse(remainder);
@@ -87,11 +87,11 @@ final class SymbolSequence {
 			if (!parsedNode.getSuccess()) {
 				return ParseState.FAILURE;
 			}
-			builder.addChild(parsedNode.getNode());
+			nodeBuilder.addChild(parsedNode.getNode());
 			remainder = parsedNode.getRemainder();
 		}
 		//Return ParseState with simplified children list of parsed nodes
-		return ParseState.build(builder.build() , remainder);
+		return ParseState.build(nodeBuilder.build() , remainder);
 	}
 	
 	/**

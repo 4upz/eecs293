@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * An enum that represents a non-terminal symbol
@@ -24,59 +25,105 @@ public enum NonTerminalSymbol implements Symbol {
 	UNARY,				// a unary operator
 	FACTOR;				// a factor
 	
+	 class TerminalMap{
+		
+		/**
+		 * An enum map that holds the TerminalSymbols and their corresponding SymbolSequences
+		 */
+		private final Map<TerminalSymbol, SymbolSequence> terminalMap = new EnumMap<>(TerminalSymbol.class);
+		
+		/**
+		 * Retrieves the stored terminalMap
+		 * @return the Map from TerminalSymbol to SymbolSequence stored in terminalMap
+		 */
+		final Map<TerminalSymbol, SymbolSequence> getTerminalMap(){
+			return new EnumMap<TerminalSymbol, SymbolSequence>(terminalMap);
+		}
+		
+		/**
+		 * Maps multiple keys to the terminalMap
+		 * @param sequence the SymbolSequence that all of the given TerminalSymbols should map to
+		 * @param symbols the list of symbols that need to be mapped
+		 */
+		private void mapMultipleKeys(SymbolSequence sequence, TerminalSymbol... symbols) {
+			Arrays.asList(symbols).forEach(symbol -> terminalMap.put(symbol, sequence));
+		}
+	}
+	
 	/*
 	 * An enum map that maps the values of the non-terminal symbols (enum) to their possible productions, 
 	 * which are lists of symbol sequences
 	 */
-	private static final Map<NonTerminalSymbol, List<SymbolSequence>> map = 
+	private static final Map<NonTerminalSymbol, Map<TerminalSymbol, SymbolSequence>> productions = 
 			new EnumMap<>(NonTerminalSymbol.class);
 	
 	/**
 	 * Maps the productions with the corresponding non-terminal symbols in the map 
 	 */
 	static {
-		
-		map.put(NonTerminalSymbol.EXPRESSION, 
-				Arrays.asList(
-						SymbolSequence.build(NonTerminalSymbol.TERM, NonTerminalSymbol.EXPRESSION_TAIL)
-				)
+		//TerminalMap for EXPRESSION
+		NonTerminalSymbol.TerminalMap expressionMap = EXPRESSION.new TerminalMap();
+		expressionMap.mapMultipleKeys(
+				SymbolSequence.build(TERM, EXPRESSION_TAIL), 
+				TerminalSymbol.values()
 		);
+		productions.put(EXPRESSION, expressionMap.getTerminalMap());
 		
-		map.put(NonTerminalSymbol.EXPRESSION_TAIL,
-				Arrays.asList(
-						SymbolSequence.build(TerminalSymbol.PLUS, NonTerminalSymbol.TERM, NonTerminalSymbol.EXPRESSION_TAIL),
-						SymbolSequence.build(TerminalSymbol.MINUS, NonTerminalSymbol.TERM, NonTerminalSymbol.EXPRESSION_TAIL),
-						SymbolSequence.EPSILON
-				)
+		//TerminalMap for EXPRESSION_TAIL
+		NonTerminalSymbol.TerminalMap expressionTailMap = EXPRESSION_TAIL.new TerminalMap();
+		expressionTailMap.mapMultipleKeys(
+				SymbolSequence.build(TerminalSymbol.PLUS, TERM, EXPRESSION_TAIL), 
+				TerminalSymbol.PLUS
 		);
+		expressionTailMap.mapMultipleKeys(
+				SymbolSequence.build(TerminalSymbol.MINUS, TERM, EXPRESSION_TAIL), 
+				TerminalSymbol.MINUS
+		);
+		productions.put(EXPRESSION_TAIL, expressionTailMap.getTerminalMap());
 		
-		map.put(NonTerminalSymbol.TERM, 
-				Arrays.asList(
-						SymbolSequence.build(NonTerminalSymbol.UNARY, NonTerminalSymbol.TERM_TAIL)
-				)
+		//TerminalMap for TERM
+		NonTerminalSymbol.TerminalMap termMap = TERM.new TerminalMap();
+		termMap.mapMultipleKeys(
+				SymbolSequence.build(UNARY, TERM_TAIL), 
+				TerminalSymbol.values()
 		);
+		productions.put(TERM, termMap.getTerminalMap());
 		
-		map.put(NonTerminalSymbol.TERM_TAIL, 
-				Arrays.asList(
-						SymbolSequence.build(TerminalSymbol.TIMES, NonTerminalSymbol.UNARY, NonTerminalSymbol.TERM_TAIL),
-						SymbolSequence.build(TerminalSymbol.DIVIDE, NonTerminalSymbol.UNARY, NonTerminalSymbol.TERM_TAIL),
-						SymbolSequence.EPSILON
-				)
+		//TerminalMap for TERM_TAIL
+		NonTerminalSymbol.TerminalMap termTailMap = TERM_TAIL.new TerminalMap();
+		termTailMap.mapMultipleKeys(
+				SymbolSequence.build(TerminalSymbol.TIMES, UNARY, TERM_TAIL), 
+				TerminalSymbol.TIMES
 		);
+		termTailMap.mapMultipleKeys(
+				SymbolSequence.build(TerminalSymbol.DIVIDE, UNARY, TERM_TAIL), 
+				TerminalSymbol.DIVIDE
+		);
+		productions.put(TERM_TAIL, termTailMap.getTerminalMap());
 		
-		map.put(NonTerminalSymbol.UNARY, 
-				Arrays.asList(
-						SymbolSequence.build(TerminalSymbol.MINUS, NonTerminalSymbol.FACTOR),
-						SymbolSequence.build(NonTerminalSymbol.FACTOR)
-				)
+		//TerminalMap for UNARY
+		NonTerminalSymbol.TerminalMap unaryMap = UNARY.new TerminalMap();
+		unaryMap.mapMultipleKeys(
+				SymbolSequence.build(TerminalSymbol.MINUS, FACTOR), 
+				TerminalSymbol.MINUS
 		);
+		unaryMap.mapMultipleKeys(
+				SymbolSequence.build(FACTOR),
+				Arrays.stream(TerminalSymbol.values()).filter(value -> !value.equals(TerminalSymbol.MINUS)).toArray(TerminalSymbol[]::new)
+		);
+		productions.put(UNARY, unaryMap.getTerminalMap());
 		
-		map.put(NonTerminalSymbol.FACTOR,
-				Arrays.asList(
-						SymbolSequence.build(TerminalSymbol.OPEN, NonTerminalSymbol.EXPRESSION, TerminalSymbol.CLOSE),
-						SymbolSequence.build(TerminalSymbol.VARIABLE)
-				)
+		//TerminalMap for FACTOR
+		NonTerminalSymbol.TerminalMap factorMap = FACTOR.new TerminalMap();
+		factorMap.mapMultipleKeys(
+				SymbolSequence.build(TerminalSymbol.OPEN, EXPRESSION, TerminalSymbol.CLOSE), 
+				TerminalSymbol.OPEN
 		);
+		factorMap.mapMultipleKeys(
+				SymbolSequence.build(TerminalSymbol.VARIABLE),
+				Arrays.stream(TerminalSymbol.values()).filter(value -> !value.equals(TerminalSymbol.OPEN)).toArray(TerminalSymbol[]::new)
+		);
+		productions.put(UNARY, unaryMap.getTerminalMap());
 		
 	}
 	
@@ -90,12 +137,17 @@ public enum NonTerminalSymbol implements Symbol {
 	@Override
 	public ParseState parse(List<Token> input) {
 		Objects.requireNonNull(input, "The input token list must not be null!");
+		SymbolSequence availableSequence;
+		if(input.isEmpty())
+			availableSequence = SymbolSequence.EPSILON;
+		else {
+			System.out.println(productions.get(this));
+			availableSequence =  productions.get(this).getOrDefault(input.get(0).getType(), SymbolSequence.EPSILON);
 		
-		for (SymbolSequence sequence : map.get(this)) {
-			ParseState possibleParseState = sequence.match(input);
-			if (possibleParseState.getSuccess()) {
-				return possibleParseState;
-			}
+		}
+		ParseState possibleParseState = availableSequence.match(input);
+		if (possibleParseState.getSuccess()) {
+			return possibleParseState;
 		}
 		return ParseState.FAILURE;
 	}

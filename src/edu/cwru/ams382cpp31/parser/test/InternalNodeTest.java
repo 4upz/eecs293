@@ -163,10 +163,10 @@ public class InternalNodeTest {
 		assertEquals(Arrays.asList(), internalNodeOne.toList());
 		assertFalse(internalNodeOne.isFruitful());
 		
-//		//Test with one child that is also internalNode to test the simplify method of InternalNode.Builder
-//		builder.addChild(InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b))));
-//		internalNodeOne = builder.build();
-//		assertEquals(Arrays.asList(a, add, b), internalNodeOne.toList());
+		//Test with one child that is also internalNode to test the simplify method of InternalNode.Builder
+		builder.addChild(InternalNode.build(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b))));
+		internalNodeOne = builder.build();
+		assertEquals(Arrays.asList(a, add, b), internalNodeOne.toList());
 		
 	}
 
