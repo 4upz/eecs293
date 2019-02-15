@@ -113,6 +113,27 @@ An `enum` that implements `Symbol` and serves as a builder of internal nodes dur
 
 Make sure to run the parseInput on the example [a, +, b, /, c]
 
+************************************************************************************************************************************
+# Homework 4 Implementations
+
+## Node
+* getChildren() - Returns the children of the node as a list
+* isFruitful() - Returns whether the node bears at least one child
+
+## LeafNode
+* getChildren() - Returns null since a LeafNode doesn't have children
+* isFruitful() - Returns true since it will always have at least one
+
+## InternalNode
+* getChildren() - Returns immutable list of children
+* isFruitful() - Returns a boolean value for if the InternalNode has at least one child
+
+### InternalNode.Builder
+Nested builder class for InternalNode
+
+## NonTerminaSymbol
+Implemented new circularity map `productions` of format Map<NonTerminalSymbol, Map<TerminalSymbol, SymbolSequence>>
+* parse - adjusted to account for new productions map
 
 
 
