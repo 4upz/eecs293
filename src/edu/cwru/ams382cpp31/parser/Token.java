@@ -23,4 +23,10 @@ public interface Token {
 	 */
 	boolean matches(TerminalSymbol type);
 	
+	/**
+	 * Determines whether a token contains an operator
+	 * @return true if the token does correspond to an operator and false otherwise
+	 */
+	boolean isOperator();
+	
 }

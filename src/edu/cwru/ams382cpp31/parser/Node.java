@@ -36,4 +36,28 @@ public interface Node {
 	 * @return			true if the node is equal to the object and false otherwise
 	 */
 	boolean equals(Object object);
+	
+	/**
+	 * Determines whether a node is a leaf corresponding to an operator
+	 * @return true if it the leaf does correspond to an operator and false otherwise
+	 */
+	boolean isOperator();
+	
+	/**
+	 * Determines if the first child of the node is started by an operator
+	 * @return true if the node’s first child is an operator, and false otherwise
+	 */
+	boolean isStartedByOperator();
+	
+	/**
+	 * Retrieves the first child of the node if it has one
+	 * @return the first child of this node or empty if unfruitful
+	 */
+	Optional<Node> firstChild();
+	
+	/**
+	 * Determines whether the node's only child is a leaf
+	 * @return true if it only contains a leaf and false otherwise
+	 */
+	boolean isSingleLeafParent();
 }

@@ -3,6 +3,9 @@
  */
 package edu.cwru.ams382cpp31.parser;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * An abstract class used to represent tokens of different types in a mathematical expression
  * @author Kyle Pham
@@ -10,6 +13,13 @@ package edu.cwru.ams382cpp31.parser;
  */
 public abstract class AbstractToken implements Token {
 
+	private static final List<TerminalSymbol> operatorTypes = Arrays.asList(
+			TerminalSymbol.DIVIDE,
+			TerminalSymbol.MINUS,
+			TerminalSymbol.PLUS,
+			TerminalSymbol.TIMES
+		);
+	
 	/**
 	 * Inherited method that retrieves the current TerminalSymbol type of the token instance
 	 * @return enum value stored in Token type
@@ -36,4 +46,13 @@ public abstract class AbstractToken implements Token {
 	public boolean equals(Object object) {
 		return object instanceof AbstractToken && ((AbstractToken) object).matches(this.getType());
 	}
+	
+	/**
+	 * Determines whether a token contains an operator as its type
+	 * @return true if it the token does correspond to an operator and false otherwise
+	 */
+	public boolean isOperator() {
+		return operatorTypes.contains(this.getType());
+	}
+	
 }

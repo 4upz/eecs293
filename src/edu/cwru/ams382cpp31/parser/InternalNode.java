@@ -200,4 +200,43 @@ public class InternalNode implements Node {
 	public boolean isFruitful() {
 		return !this.getChildren().isEmpty();
 	}
+
+	/**
+	 * Determines whether a node is a leaf corresponding to an operator
+	 * @return  false because this is an InternalNode
+	 */
+	@Override
+	public boolean isOperator() {
+		return false;
+	}
+
+	/**
+	 * Determines if the first child of the node is started by an operator
+	 * @return true if the node’s first child is an operator, and false otherwise
+	 */
+	@Override
+	public boolean isStartedByOperator() {
+		return this.isFruitful() && this.firstChild().get().isOperator();
+	}
+
+	/**
+	 * Retrieves the first child of the node if it has one
+	 * @return the first child of this node or empty if unfruitful
+	 */
+	@Override
+	public Optional<Node> firstChild() {
+		return this.isFruitful() ? Optional.of(this.getChildren().get(0)) : Optional.empty();
+	}
+
+	/**
+	 * Determines whether the node's only child is a leaf
+	 * @return true if it only has a single leaf child and false otherwise
+	 */
+	@Override
+	public boolean isSingleLeafParent() {
+		if (this.isFruitful() && this.getChildren().size() == 1 && this.firstChild().get() instanceof LeafNode)
+			return true;
+		else
+			return false;
+	}
 }

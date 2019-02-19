@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * An enum that represents a non-terminal symbol
@@ -69,32 +66,36 @@ public enum NonTerminalSymbol implements Symbol {
 		assignMap(
 				EXPRESSION, 
 				Arrays.asList(SymbolSequence.build(TERM, EXPRESSION_TAIL)),		// only sequence
-				Arrays.asList(Arrays.asList(TerminalSymbol.values()))			// only TerminalSymbol list
+				Arrays.asList(Arrays.asList(TerminalSymbol.MINUS, TerminalSymbol.OPEN, TerminalSymbol.VARIABLE))			// only TerminalSymbol list
 		);
 		
 		//TerminalMap for EXPRESSION_TAIL
 		assignMap(
 				EXPRESSION_TAIL,
 				Arrays.asList(SymbolSequence.build(TerminalSymbol.PLUS, TERM, EXPRESSION_TAIL),	// first sequence
-							SymbolSequence.build(TerminalSymbol.MINUS, TERM, EXPRESSION_TAIL)),	// second sequence
+							SymbolSequence.build(TerminalSymbol.MINUS, TERM, EXPRESSION_TAIL),
+							SymbolSequence.EPSILON),	// second sequence
 				Arrays.asList(Arrays.asList(TerminalSymbol.PLUS),				// first TerminalSymbol list
-							Arrays.asList(TerminalSymbol.MINUS))				// second TerminalSymbol list
+							Arrays.asList(TerminalSymbol.MINUS), 
+							Arrays.asList(TerminalSymbol.CLOSE, null))				// second TerminalSymbol list
 		);
 		
 		//TerminalMap for TERM
 		assignMap(
 				TERM,
 				Arrays.asList(SymbolSequence.build(UNARY, TERM_TAIL)),			// only sequence
-				Arrays.asList(Arrays.asList(TerminalSymbol.values()))			// only TerminalSymbol list
+				Arrays.asList(Arrays.asList(TerminalSymbol.MINUS, TerminalSymbol.OPEN, TerminalSymbol.VARIABLE))			// only TerminalSymbol list
 		);
 		
 		//TerminalMap for TERM_TAIL
 		assignMap(
 				TERM_TAIL,
 				Arrays.asList(SymbolSequence.build(TerminalSymbol.TIMES, UNARY, TERM_TAIL),		// first sequence
-							SymbolSequence.build(TerminalSymbol.DIVIDE, UNARY, TERM_TAIL)),		// second sequence
+							SymbolSequence.build(TerminalSymbol.DIVIDE, UNARY, TERM_TAIL),
+							SymbolSequence.EPSILON),		// second sequence
 				Arrays.asList(Arrays.asList(TerminalSymbol.TIMES),				// first TerminalSymbol list
-							Arrays.asList(TerminalSymbol.DIVIDE))				// second TerminalSymbol list
+							Arrays.asList(TerminalSymbol.DIVIDE),
+							Arrays.asList(TerminalSymbol.CLOSE, TerminalSymbol.PLUS, TerminalSymbol.MINUS, null))				// second TerminalSymbol list
 		);
 		
 		//TerminalMap for TAIL
@@ -103,10 +104,7 @@ public enum NonTerminalSymbol implements Symbol {
 				Arrays.asList(SymbolSequence.build(TerminalSymbol.MINUS, FACTOR),	// first sequence
 							SymbolSequence.build(FACTOR)),							// second sequence
 				Arrays.asList(Arrays.asList(TerminalSymbol.MINUS),					// first TerminalSymbol list
-							// Any TerminalSymbol other than MINUS
-							Arrays.stream(TerminalSymbol.values()).filter(			// second TerminalSymbol list
-									value -> !value.equals(TerminalSymbol.MINUS)).collect(
-											Collectors.toList()))
+							Arrays.asList(TerminalSymbol.OPEN, TerminalSymbol.VARIABLE))
 		);
 		
 		//TerminalMap for FACTOR
@@ -115,10 +113,7 @@ public enum NonTerminalSymbol implements Symbol {
 				Arrays.asList(SymbolSequence.build(TerminalSymbol.OPEN, EXPRESSION, TerminalSymbol.CLOSE),	// first sequence
 							SymbolSequence.build(TerminalSymbol.VARIABLE)),									// second sequence
 				Arrays.asList(Arrays.asList(TerminalSymbol.OPEN),						// first TerminalSymbol list
-							// Any TerminalSymbol other than OPEN
-							Arrays.stream(TerminalSymbol.values()).filter(				// second TerminalSymbol list
-								value -> !value.equals(TerminalSymbol.OPEN)).collect(
-										Collectors.toList()))
+							Arrays.asList(TerminalSymbol.VARIABLE))
 		);	
 	}
 	

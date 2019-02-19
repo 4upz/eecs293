@@ -86,5 +86,41 @@ public final class LeafNode implements Node {
 	public boolean isFruitful() {
 		return true;
 	}
+
+	/**
+	 * Determines whether a node is a leaf corresponding to an operator
+	 * @return true if it the leaf does correspond to an operator and false otherwise
+	 */
+	@Override
+	public boolean isOperator() {
+		return this.getToken().isOperator();
+	}
+
+	/**
+	 * Determines if the first child of the node is started by an operator
+	 * @return false because a LeafNode doesn't have any children
+	 */
+	@Override
+	public boolean isStartedByOperator() {
+		return false;
+	}
+
+	/**
+	 * Retrieves the first child of the node if it has one
+	 * @return empty since this is a LeafNode
+	 */
+	@Override
+	public Optional<Node> firstChild() {
+		return Optional.empty();
+	}
+
+	/**
+	 * Determines whether the node's only child is a leaf
+	 * @return false because a LeafNode doesn't have any children
+	 */
+	@Override
+	public boolean isSingleLeafParent() {
+		return false;
+	}
 	
 }
