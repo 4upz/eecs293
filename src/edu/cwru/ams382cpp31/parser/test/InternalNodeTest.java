@@ -171,14 +171,15 @@ public class InternalNodeTest {
 		
 		//Test with multiple children that includes one InternalNode and one LeafNode
 		builder = new InternalNode.Builder();
+		builder.addChild(LeafNode.build(a));
+		internalNodeOne = builder.build();
+		builder = new InternalNode.Builder();
 		builder.addChild(internalNodeOne);
 		builder.addChild(LeafNode.build(divide));
 		builder.addChild(LeafNode.build(c));
 		internalNodeOne = builder.build();
-		assertEquals(Arrays.asList(a, add, b, divide, c), internalNodeOne.toList());
-		assertTrue(internalNodeOne.isFruitful());
-		assertEquals("[[a,+,b], /, c]",
-				internalNodeOne.getChildren().toString());
+		assertEquals(Arrays.asList(a, divide, c), internalNodeOne.toList());
+		assertEquals("[a,/,c]", internalNodeOne.toString());
 		
 	}
 

@@ -38,16 +38,19 @@ public class InternalNode implements Node {
 		 * @return new Builder instance containing simplified InternalNode
 		 */
 		public Builder simplify() {
+			//Temporary list for simplified changes
+			List<Node> newChildren = new LinkedList<Node>(children);
 			for (Node child : children) {
 				//If the child is not fruitful, remove from the children list
 				if (!child.isFruitful()) {
-					children.remove(child);
+					newChildren.remove(child);
 				}
-				if (child instanceof InternalNode) {
-					simplifyInternalNode(children, (InternalNode) child);
+				else if (child instanceof InternalNode) {
+					simplifyInternalNode((InternalNode) child, newChildren);
 				}
 			}
-			splitSingleInternalNode();
+			splitSingleInternalNode(newChildren);
+			children = newChildren;
 			return this;
 		}
 		
@@ -62,34 +65,27 @@ public class InternalNode implements Node {
 		/**
 		 * Checks to see if the children list contains a single InternalNode and splits its children if it does
 		 */
-		private void splitSingleInternalNode() {
+		private void splitSingleInternalNode(List<Node> children) {
 			if(children.size() == 1 && children.get(0) instanceof InternalNode) {
-				replaceInternalNodeWithChildren(children, (InternalNode) children.get(0));
+				replaceInternalNodeWithChildren((InternalNode) children.get(0), children );
 			}
 		}
 		
 		/**
 		 * Replaces an InternalNode in a list with its stored children
-		 * @param children	given list to be modified
 		 * @param node		the InternalNode to be split
+		 * @param nodeList	given list containing node that is to be modified
 		 */
-		private void replaceInternalNodeWithChildren(List<Node> children, InternalNode node) {
-			children.addAll(children.indexOf(node), node.getChildren());
-			children.remove(node);
+		private void replaceInternalNodeWithChildren(InternalNode node, List<Node> nodeList) {
+			nodeList.addAll(nodeList.indexOf(node), node.getChildren());
+			nodeList.remove(node);
 		}
 		
-		private void simplifyInternalNode(List<Node> children, InternalNode node) {
-			/*
-			 * if (internalNode starts with operator) AND (does not have operator before),
-			 * 		splitInternalNode (children, internalNode)
-			 * else if (internalNode isSingleLeafGrandparent)
-			 * 		splitInternalNode(children, internalNode)
-			 */
-			if (node.isStartedByOperator() && !hasOperatorBefore(children, node)) {
-				replaceInternalNodeWithChildren(children, node);
-			}
-			else if (isSingleLeafGrandparent(node)) {
-				replaceInternalNodeWithChildren(children, node);
+		private void simplifyInternalNode(InternalNode node, List<Node> nodeList) {
+
+			if ((node.isStartedByOperator() && !hasOperatorBefore(nodeList, node))
+					|| node.isSingleLeafParent()) {
+				replaceInternalNodeWithChildren(node, nodeList);
 			}
 		}
 		
@@ -99,26 +95,13 @@ public class InternalNode implements Node {
 		 * @param child 	an InternalNode within the given list
 		 * @return
 		 */
-		private boolean hasOperatorBefore(List<Node> children, InternalNode child) {
-			if (children.indexOf(child) == 0) {
+		private boolean hasOperatorBefore(List<Node> children, InternalNode node) {
+			if (children.indexOf(node) == 0) {
 				return false;
 			}
 			else {
-				return getPreviousNode(children, child).isOperator();
+				return getPreviousNode(children, node).isOperator();
 			}
-		}
-		
-		/**
-		 * Determines whether an InternalNode is the parent of a single leaf InternalNode
-		 * @param node 	given InternalNode to be examined
-		 * @return 		true if there exist an InternalNode that is a single leaf parent and false otherwise
-		 */
-		private boolean isSingleLeafGrandparent(InternalNode node) {
-			for (Node child : node.getChildren()) {
-				if (child instanceof InternalNode)
-					return child.isSingleLeafParent();
-			}
-			return false;
 		}
 		
 		/**
