@@ -60,6 +60,24 @@ public final class LeafNode implements Node {
 	}
 	
 	/**
+	 * Gets the children of the LeafNode
+	 * @return null since a LeafNode does not contain node children
+	 */
+	@Override
+	public List<Node> getChildren() {
+		return null;
+	}
+	
+	/**
+	 * Retrieves the first child of the node if it has one
+	 * @return empty since this is a LeafNode
+	 */
+	@Override
+	public Optional<Node> firstChild() {
+		return Optional.empty();
+	}
+	
+	/**
 	 * Checks if the leaf node is equal to a given object
 	 * @param object	an object to be compared to the leaf node
 	 * @return			true if the object is a leaf node with the same token and false otherwise
@@ -68,16 +86,7 @@ public final class LeafNode implements Node {
 	public boolean equals(Object object) {
 		return object instanceof LeafNode && ((LeafNode) object).getToken().equals(this.getToken());
 	}
-
-	/**
-	 * Gets the children of the LeafNode
-	 * @return null since a LeafNode does not contain node children
-	 */
-	@Override
-	public List<Node> getChildren() {
-		return null;
-	}
-
+	
 	/**
 	 * Determines whether the LeafNode holds a value
 	 * @return true since a LeafNode always has a stored Token
@@ -103,15 +112,6 @@ public final class LeafNode implements Node {
 	@Override
 	public boolean isStartedByOperator() {
 		return false;
-	}
-
-	/**
-	 * Retrieves the first child of the node if it has one
-	 * @return empty since this is a LeafNode
-	 */
-	@Override
-	public Optional<Node> firstChild() {
-		return Optional.empty();
 	}
 
 	/**

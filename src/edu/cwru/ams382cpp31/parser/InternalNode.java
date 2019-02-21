@@ -43,8 +43,11 @@ public class InternalNode implements Node {
 				if (!child.isFruitful()) {
 					children.remove(child);
 				}
-				splitSingleInternalNode();
+				if (child instanceof InternalNode) {
+					simplifyInternalNode(children, (InternalNode) child);
+				}
 			}
+			splitSingleInternalNode();
 			return this;
 		}
 		
@@ -61,8 +64,71 @@ public class InternalNode implements Node {
 		 */
 		private void splitSingleInternalNode() {
 			if(children.size() == 1 && children.get(0) instanceof InternalNode) {
-				children = children.get(0).getChildren();
+				replaceInternalNodeWithChildren(children, (InternalNode) children.get(0));
 			}
+		}
+		
+		/**
+		 * Replaces an InternalNode in a list with its stored children
+		 * @param children	given list to be modified
+		 * @param node		the InternalNode to be split
+		 */
+		private void replaceInternalNodeWithChildren(List<Node> children, InternalNode node) {
+			children.addAll(children.indexOf(node), node.getChildren());
+			children.remove(node);
+		}
+		
+		private void simplifyInternalNode(List<Node> children, InternalNode node) {
+			/*
+			 * if (internalNode starts with operator) AND (does not have operator before),
+			 * 		splitInternalNode (children, internalNode)
+			 * else if (internalNode isSingleLeafGrandparent)
+			 * 		splitInternalNode(children, internalNode)
+			 */
+			if (node.isStartedByOperator() && !hasOperatorBefore(children, node)) {
+				replaceInternalNodeWithChildren(children, node);
+			}
+			else if (isSingleLeafGrandparent(node)) {
+				replaceInternalNodeWithChildren(children, node);
+			}
+		}
+		
+		/**
+		 * Checks to see if a given InternalNode child in list is preceded by an operator
+		 * @param children 	a list of Nodes
+		 * @param child 	an InternalNode within the given list
+		 * @return
+		 */
+		private boolean hasOperatorBefore(List<Node> children, InternalNode child) {
+			if (children.indexOf(child) == 0) {
+				return false;
+			}
+			else {
+				return getPreviousNode(children, child).isOperator();
+			}
+		}
+		
+		/**
+		 * Determines whether an InternalNode is the parent of a single leaf InternalNode
+		 * @param node 	given InternalNode to be examined
+		 * @return 		true if there exist an InternalNode that is a single leaf parent and false otherwise
+		 */
+		private boolean isSingleLeafGrandparent(InternalNode node) {
+			for (Node child : node.getChildren()) {
+				if (child instanceof InternalNode)
+					return child.isSingleLeafParent();
+			}
+			return false;
+		}
+		
+		/**
+		 * Returns the Node that comes before a given Node within a list
+		 * @param children 		the list of Nodes to be used
+		 * @param currentChild 	one of the Children within the list of Nodes
+		 * @return
+		 */
+		private Node getPreviousNode(List<Node> children, Node currentChild) {
+			return children.get(children.indexOf(currentChild)-1);
 		}
 	}
 	
@@ -180,6 +246,15 @@ public class InternalNode implements Node {
 	}
 	
 	/**
+	 * Retrieves the first child of the node if it has one
+	 * @return the first child of this node or empty if unfruitful
+	 */
+	@Override
+	public Optional<Node> firstChild() {
+		return this.isFruitful() ? Optional.of(this.getChildren().get(0)) : Optional.empty();
+	}
+	
+	/**
 	 * Checks if the internal node is equal to a given object
 	 * @param object	an object to be compared to the internal node
 	 * @return			true if the object is an internal node with the same list of children,
@@ -217,15 +292,6 @@ public class InternalNode implements Node {
 	@Override
 	public boolean isStartedByOperator() {
 		return this.isFruitful() && this.firstChild().get().isOperator();
-	}
-
-	/**
-	 * Retrieves the first child of the node if it has one
-	 * @return the first child of this node or empty if unfruitful
-	 */
-	@Override
-	public Optional<Node> firstChild() {
-		return this.isFruitful() ? Optional.of(this.getChildren().get(0)) : Optional.empty();
 	}
 
 	/**
