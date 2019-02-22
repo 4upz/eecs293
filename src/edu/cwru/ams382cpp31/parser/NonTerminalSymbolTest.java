@@ -27,7 +27,6 @@ public class NonTerminalSymbolTest {
 	private Connector plus = Connector.build(TerminalSymbol.PLUS);
 	private Connector minus = Connector.build(TerminalSymbol.MINUS);
 	private Connector times = Connector.build(TerminalSymbol.TIMES);
-	private Connector divide = Connector.build(TerminalSymbol.DIVIDE);
 	private Connector open = Connector.build(TerminalSymbol.OPEN);
 	private Connector close = Connector.build(TerminalSymbol.CLOSE);
 

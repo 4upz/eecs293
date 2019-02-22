@@ -18,11 +18,6 @@ import org.junit.rules.ExpectedException;
  * @author Arik Stewart
  */
 public class TerminalSymbolTest {
-
-	// Tokens to be used in the test
-	private Variable a = Variable.build("a");
-	private Variable b = Variable.build("b");
-	private Connector plus = Connector.build(TerminalSymbol.PLUS);
 	
 	/**
 	 * Used for testing cases where an exception is expected for invalid SequenceSymbol builds

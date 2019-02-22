@@ -135,6 +135,29 @@ Nested builder class for InternalNode
 Implemented new circularity map `productions` of format Map<NonTerminalSymbol, Map<TerminalSymbol, SymbolSequence>>
 * parse - adjusted to account for new productions map
 
+************************************************************************************************************************************
+# Homework 5 Implementations
+
+## Node
+New Helper methods implemented in all derived classes
+* firstChild() - `Optional<Node>` Returns the first stored child in a Node if one exists
+* isSingleLeafParent() - `boolean` Returns true if the Node is the parent of a single LeafNode and false otherwise
+* isOperator() - `boolean` Returns true for a LeafNode with a stored operator and false otherwise
+* isStartedByOperator() - `boolean` Returns true for an InternalNode started by an operator, and false otherwise
+
+## Token
+New helper methods implemented in all derived classes
+* isOperator() - `boolean` Returns true if the stored Token is one of the stored Operator types and false otherwise
+
+# Extra Credit
+Implemented a new class, `Parser` that holds the main method and supporting functions to run the parse tree on a given input.
+
+## Run Configurations
+For setup, do the following within Eclipse: 
+* Create a new Java Application Run Configuration file and give it a name of your choice.
+* Set up the Parser.Java file as the main class.
+* On the "Arguments" tab, enter a list of non-spaced tokens that you would like to see parsed.
+* Run the configuration, and the program will return the resulted output to the console
 
 
 
