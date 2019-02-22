@@ -25,7 +25,12 @@ public class NonTerminalSymbolTest {
 	private Variable a = Variable.build("a");
 	private Variable b = Variable.build("b");
 	private Connector plus = Connector.build(TerminalSymbol.PLUS);
-	
+	private Connector minus = Connector.build(TerminalSymbol.MINUS);
+	private Connector times = Connector.build(TerminalSymbol.TIMES);
+	private Connector divide = Connector.build(TerminalSymbol.DIVIDE);
+	private Connector open = Connector.build(TerminalSymbol.OPEN);
+	private Connector close = Connector.build(TerminalSymbol.CLOSE);
+
 	/**
 	 * Used for testing cases where an exception is expected for invalid SequenceSymbol builds
 	 */
@@ -61,10 +66,12 @@ public class NonTerminalSymbolTest {
 	 */
 	@Test
 	public void testParseFail() {
-		testParseFailSpecific(NonTerminalSymbol.EXPRESSION, Connector.build(TerminalSymbol.OPEN));
-		testParseFailSpecific(NonTerminalSymbol.TERM, Connector.build(TerminalSymbol.PLUS));
-		testParseFailSpecific(NonTerminalSymbol.UNARY, Connector.build(TerminalSymbol.PLUS));
-		testParseFailSpecific(NonTerminalSymbol.FACTOR, Connector.build(TerminalSymbol.MINUS));	
+		testParseFailSpecific(NonTerminalSymbol.EXPRESSION, open);
+		testParseFailSpecific(NonTerminalSymbol.EXPRESSION_TAIL, open);
+		testParseFailSpecific(NonTerminalSymbol.TERM, times);
+		testParseFailSpecific(NonTerminalSymbol.TERM_TAIL, a);
+		testParseFailSpecific(NonTerminalSymbol.UNARY, plus);
+		testParseFailSpecific(NonTerminalSymbol.FACTOR, minus);	
 	}
 	
 	/**
@@ -82,10 +89,11 @@ public class NonTerminalSymbolTest {
 	 */
 	@Test
 	public void testParseSuccess() {
-		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION, Variable.build("x"));
+		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION, b);
+		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION, open, a, close);
 		testParseSuccessSpecific(NonTerminalSymbol.EXPRESSION_TAIL, Connector.build(TerminalSymbol.MINUS),Variable.build("z"));
 		testParseSuccessSpecific(NonTerminalSymbol.TERM, Connector.build(TerminalSymbol.OPEN), Variable.build("x"), Connector.build(TerminalSymbol.CLOSE));
-		testParseSuccessSpecific(NonTerminalSymbol.TERM_TAIL, Variable.build("z"));
+		testParseSuccessSpecific(NonTerminalSymbol.TERM_TAIL, Connector.build(TerminalSymbol.CLOSE));
 		testParseSuccessSpecific(NonTerminalSymbol.UNARY, Connector.build(TerminalSymbol.MINUS), Variable.build("x"));
 		testParseSuccessSpecific(NonTerminalSymbol.FACTOR, Connector.build(TerminalSymbol.OPEN), Variable.build("y"), Connector.build(TerminalSymbol.CLOSE));
 	}
