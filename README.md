@@ -158,6 +158,7 @@ For setup, do the following within Eclipse:
 * Set up the Parser.Java file as the main class.
 * On the "Arguments" tab, enter a list of non-spaced tokens that you would like to see parsed.
 * Run the configuration, and the program will return the resulted output to the console
+* The program can also be executed by calling Parser from the command line with the same format for the arguments
 
 
 
