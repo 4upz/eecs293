@@ -8,13 +8,54 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.*;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.StackPane;
+
 /**
  * A class that runs the parser program
  * @author Kyle Pham
  * @author Arik Stewart
  */
-class Parser {
-
+public class Parser extends Application {
+	
+	// The root node gotten from parsing
+	static Node rootNode = null;
+		
+	@Override
+	public void start(Stage primaryStage) {
+		TreeItem<Node> fullTree = new TreeItem<Node>(rootNode);
+		addTreeItems(fullTree);
+		TreeView<Node> tree = new TreeView<Node>(fullTree);
+		StackPane root = new StackPane();
+        root.setPadding(new Insets(5));
+        root.getChildren().add(tree);
+ 
+        primaryStage.setTitle("JavaFX TreeView (o7planning.org)");
+        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.show();
+		
+	}
+		
+	/**
+	 * A recursive method to create new tree items with correct children
+	 * @param nodeItem	a TreeItem that is a node
+	 */
+	private void addTreeItems(TreeItem<Node> nodeItem) {
+		Node node = nodeItem.getValue();
+		if (node instanceof InternalNode) {
+			for(Node child : node.getChildren()) {
+				TreeItem<Node> childItem = new TreeItem<>(child);
+				nodeItem.getChildren().add(childItem);
+				addTreeItems(childItem);
+			}
+		}
+	}
+	
 	/**
 	 * The main method used to run the Parser program using command line
 	 * @param args		the list of arguments given by the user, which should only contain one element for this program
@@ -25,12 +66,14 @@ class Parser {
 			Optional<Node> nodeParsed = NonTerminalSymbol.parseInput(tokenRepresentations(args[0]));
 			if (nodeParsed.isPresent()) {
 				System.out.println(nodeParsed.get().toString());
+				Parser.rootNode = nodeParsed.get();	
+				launch(args);
 			}
 			else {
 				System.out.println("The given string is not a valid expression!");
 			}
 		}
-		catch (Exception e) {
+		catch (NullPointerException e) {
 			System.out.println("An error has occured in the program! Please try again using a different input!");
 		}
 	}
