@@ -28,7 +28,7 @@ public final class Connector extends AbstractToken {
 	/**
 	 * The list of valid types for a connector, which are CLOSE, DIVIDE, MINUS, OPEN, PLUS, TIMES.
 	 */
-	private static final List<TerminalSymbol> validTypes = Arrays.asList(
+	static final List<TerminalSymbol> connectorTypes = Arrays.asList(
 		TerminalSymbol.CLOSE,
 		TerminalSymbol.DIVIDE,
 		TerminalSymbol.MINUS,
@@ -76,7 +76,7 @@ public final class Connector extends AbstractToken {
 	 * 			false otherwise
 	 */
 	private static boolean isValidType(TerminalSymbol type) {
-		return validTypes.contains(type);
+		return connectorTypes.contains(type);
 	}
 	
 	/**

@@ -65,4 +65,17 @@ public enum TerminalSymbol implements Symbol {
 		}
 	}
 
+	/**
+	 * Finds a TerminalSymbol that can match the given string representation
+	 * @param representation	the given string representation of a TerminalSymbol
+	 * @return					a TerminalSymbol that can have the given string representation
+	 */
+	static TerminalSymbol symbolFromParsing(String representation) {
+		Objects.requireNonNull(representation, "The input representation must not be null!");
+		for (TerminalSymbol symbol : TerminalSymbol.values()) {
+			if (representation.equals(symbol.getRepresentation()))
+				return symbol;
+		}
+		return TerminalSymbol.VARIABLE;
+	}
 }

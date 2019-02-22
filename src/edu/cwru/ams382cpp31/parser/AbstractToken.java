@@ -13,6 +13,9 @@ import java.util.List;
  */
 public abstract class AbstractToken implements Token {
 
+	/**
+	 * The list of operator types
+	 */
 	private static final List<TerminalSymbol> operatorTypes = Arrays.asList(
 			TerminalSymbol.DIVIDE,
 			TerminalSymbol.MINUS,

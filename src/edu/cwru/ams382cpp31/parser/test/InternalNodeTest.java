@@ -224,7 +224,6 @@ public class InternalNodeTest {
 		builder.addChild(internalNodeOne);
 		internalNodeTwo = builder.build();
 		assertEquals(Arrays.asList(a, add, minus, b), internalNodeTwo.toList());
-		System.out.println(internalNodeTwo.toString());
 		assertEquals("[a,+,[-,b]]", internalNodeTwo.toString());
 		
 		}
