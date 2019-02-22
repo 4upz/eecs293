@@ -283,7 +283,7 @@ public class InternalNode implements Node {
 	 */
 	@Override
 	public boolean isSingleLeafParent() {
-		if (this.isFruitful() && this.getChildren().size() == 1 && this.firstChild().get() instanceof LeafNode)
+		if (this.getChildren().size() == 1 && this.firstChild().get() instanceof LeafNode)
 			return true;
 		else
 			return false;
