@@ -4,6 +4,7 @@
 package edu.cwru.ams382cpp31.parser.test;
 
 import edu.cwru.ams382cpp31.parser.*;
+
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -152,7 +153,7 @@ public class InternalNodeTest {
 	}
 	
 	/**
-	 * Tests the getChildren and isFruitful method of InternalNode
+	 * Tests the builder, getChildren and isFruitful method of InternalNode
 	 */
 	@Test
 	public final void testChildren() {
@@ -169,7 +170,7 @@ public class InternalNodeTest {
 		assertTrue(internalNodeOne.isFruitful());
 		assertEquals(new LinkedList<Node>(Arrays.asList(LeafNode.build(a), LeafNode.build(add), LeafNode.build(b))), internalNodeOne.getChildren());
 		
-		//Test with multiple children that includes one InternalNode and one LeafNode
+		//Test singleLeaf simplify with multiple children that includes one InternalNode to be split and one LeafNode
 		builder = new InternalNode.Builder();
 		builder.addChild(LeafNode.build(a));
 		internalNodeOne = builder.build();
@@ -181,6 +182,51 @@ public class InternalNodeTest {
 		assertEquals(Arrays.asList(a, divide, c), internalNodeOne.toList());
 		assertEquals("[a,/,c]", internalNodeOne.toString());
 		
-	}
+		//Test singleLeaf simplify with multiple children that includes more than one InternalNodes to be split and one LeafNode
+		builder = new InternalNode.Builder();
+		builder.addChild(LeafNode.build(a));
+		internalNodeOne = builder.build();
+		builder = new InternalNode.Builder();
+		builder.addChild(LeafNode.build(add));
+		internalNodeTwo = builder.build();
+		builder = new InternalNode.Builder();
+		builder.addChild(internalNodeOne);
+		builder.addChild(internalNodeTwo);
+		builder.addChild(LeafNode.build(b));
+		builder.addChild(LeafNode.build(divide));
+		builder.addChild(LeafNode.build(c));
+		InternalNode internalNodeThree = builder.build();
+		assertEquals(Arrays.asList(a, add, b, divide, c), internalNodeThree.toList());
+		assertEquals("[a,+,b,/,c]", internalNodeThree.toString());
+		
+		//Test operator simplify
+		builder = new InternalNode.Builder();
+		builder.addChild(LeafNode.build(divide));
+		builder.addChild(LeafNode.build(c));
+		internalNodeOne = builder.build();
+		builder = new InternalNode.Builder();
+		builder.addChild(LeafNode.build(a));
+		builder.addChild(LeafNode.build(add));
+		builder.addChild(LeafNode.build(b));
+		builder.addChild(internalNodeOne);
+		internalNodeTwo = builder.build();
+		assertEquals(Arrays.asList(a, add, b, divide, c), internalNodeTwo.toList());
+		assertEquals("[a,+,b,/,c]", internalNodeTwo.toString());
+		
+		//Test Operator simplify for improper simplify case
+		builder = new InternalNode.Builder();
+		builder.addChild(LeafNode.build(minus));
+		builder.addChild(LeafNode.build(b));
+		internalNodeOne = builder.build();
+		builder = new InternalNode.Builder();
+		builder.addChild(LeafNode.build(a));
+		builder.addChild(LeafNode.build(add));
+		builder.addChild(internalNodeOne);
+		internalNodeTwo = builder.build();
+		assertEquals(Arrays.asList(a, add, minus, b), internalNodeTwo.toList());
+		System.out.println(internalNodeTwo.toString());
+		assertEquals("[a,+,[-,b]]", internalNodeTwo.toString());
+		
+		}
 
 }
